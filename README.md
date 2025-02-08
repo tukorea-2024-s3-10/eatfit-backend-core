@@ -2,9 +2,9 @@
 
 # Commit Convention
 ```
-Type: 제목
+[Commit Type]: 제목
 (띄고)
-본문
+본문(생략 가능)
 (띄고)
 꼬리말(생략 가능)
 ```
