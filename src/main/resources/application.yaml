@@ -1,11 +1,6 @@
-
 spring:
   application:
     name: eat-fit
 
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: test
-    password: 1234
-    url: jdbc:mysql://43.201.150.57:3306/eat_fit
+  config:
+    import: classpath:application-sec.yaml
