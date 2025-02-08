@@ -8,4 +8,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: test
     password: 1234
-    url: jdbc:mysql://13.125.156.130:3306/eat_fit
+    url: jdbc:mysql://43.201.150.57:3306/eat_fit
