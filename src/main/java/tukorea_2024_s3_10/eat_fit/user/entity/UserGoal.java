@@ -1,32 +1,32 @@
 package tukorea_2024_s3_10.eat_fit.user.entity;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@Builder
 @Entity
+@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserGoal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 고유 id
+    private Long id;
 
-    @OneToOne
-    private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;             // 사용자별 권장 섭취량 계산
 
-    private String gender; // 성별
-    private int birthYear; // 출생연도
-    private int height; // 키(신장)
-    private double weight; // 몸무게
-    private String goalType; // 사용자 목표
-    private String goalWeight; // 목표 몸무게
-    private int goalKcal; // 목표 섭취 칼로리
-    private double goalCarbs; // 목표 섭취 탄수화물
-    private double goalProtein; // 목표 섭취 단백질
-    private double goalFats; // 목표 섭취 지방
+    private int calorieGoal;       // 칼로리
+    private int sodiumGoal;        // 나트륨
+    private int carbohydrateGoal;  // 탄수화물
+    private int sugarGoal;         // 당류
+    private int fatGoal;           // 지방
+    private int transFatGoal;      // 트랜스지방
+    private int saturatedFatGoal;  // 포화지방
+    private int cholesterolGoal;   // 콜레스테롤
+    private int proteinGoal;       // 단백질
 }

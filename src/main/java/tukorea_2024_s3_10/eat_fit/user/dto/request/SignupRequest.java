@@ -11,6 +11,6 @@ public class SignupRequest {
     private int birthYear; // 출생연도
     private int height; // 키
     private double weight; // 몸무게
-    private String goalType; // 목표 종류
-    private double goalWeight; // 목표 몸무게
+    private String goalCategory; // 목표 종류
+    private double targetWeight; // 목표 몸무게
 }

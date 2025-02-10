@@ -1,12 +1,12 @@
 package tukorea_2024_s3_10.eat_fit.user.util;
 
-import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
+import tukorea_2024_s3_10.eat_fit.user.entity.UserProfile;
 
 public class UserGoalCalculator {
 
-    public static UserGoal recommendUserGoal(UserGoal userGoal){
-        String goal = userGoal.getGoalType();
-        UserGoal newUserGoal;
+    public static UserProfile recommendUserGoal(UserProfile userProfile){
+        String goal = userProfile.getGoalCategory();
+        UserProfile newUserProfile;
 
         /**
          * 회원가입 키, 몸무게, 목표, 서비스
@@ -15,77 +15,77 @@ public class UserGoalCalculator {
          *
          */
         switch(goal){
-            case "다이어트" -> newUserGoal = diet(userGoal);
-            case "운동" -> newUserGoal = exercise(userGoal);
-            case "건강" -> newUserGoal = health(userGoal);
+            case "다이어트" -> newUserProfile = diet(userProfile);
+            case "운동" -> newUserProfile = exercise(userProfile);
+            case "건강" -> newUserProfile = health(userProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
-        return newUserGoal;
+        return newUserProfile;
     }
 
-    private static UserGoal diet(UserGoal userGoal){
-        double standardWeight = calculateStandardWeight(userGoal);
+    private static UserProfile diet(UserProfile userProfile){
+        double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
-        if(standardWeight > userGoal.getWeight()){
-            goalKcal = (int)(userGoal.getWeight()*25);
+        if(standardWeight > userProfile.getWeight()){
+            goalKcal = (int)(userProfile.getWeight()*25);
         }else{
             goalKcal = (int)(standardWeight*25);
         }
 
         //다이어트 탄단지 비율
-        userGoal.setGoalKcal(goalKcal);
-        userGoal.setGoalCarbs((goalKcal * 0.4) / 4);
-        userGoal.setGoalProtein((goalKcal * 0.3) / 4);
-        userGoal.setGoalFats((goalKcal * 0.3) / 9);
+//        userProfile.set(goalKcal);
+//        userProfile.setGoalCarbs((goalKcal * 0.4) / 4);
+//        userProfile.setGoalProtein((goalKcal * 0.3) / 4);
+//        userProfile.setGoalFats((goalKcal * 0.3) / 9);
 
-        return userGoal;
+        return userProfile;
 
     }
 
-    private static UserGoal exercise(UserGoal userGoal){
-        double standardWeight = calculateStandardWeight(userGoal);
+    private static UserProfile exercise(UserProfile userProfile){
+        double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
-        if(standardWeight > userGoal.getWeight()){
-            goalKcal = (int)(userGoal.getWeight()*35);
+        if(standardWeight > userProfile.getWeight()){
+            goalKcal = (int)(userProfile.getWeight()*35);
         }else{
-            goalKcal = (int)(userGoal.getWeight()*40);
+            goalKcal = (int)(userProfile.getWeight()*40);
         }
 
-        userGoal.setGoalKcal(goalKcal);
-        userGoal.setGoalCarbs((goalKcal * 0.4) / 4);
-        userGoal.setGoalProtein((goalKcal * 0.4) / 4);
-        userGoal.setGoalFats((goalKcal * 0.2) / 9);
+//        userProfile.setGoalKcal(goalKcal);
+//        userProfile.setGoalCarbs((goalKcal * 0.4) / 4);
+//        userProfile.setGoalProtein((goalKcal * 0.4) / 4);
+//        userProfile.setGoalFats((goalKcal * 0.2) / 9);
 
-        return userGoal;
+        return userProfile;
     }
 
-    private static UserGoal health(UserGoal userGoal){
-        double standardWeight = calculateStandardWeight(userGoal);
+    private static UserProfile health(UserProfile userProfile){
+        double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
         goalKcal = (int)(standardWeight*30);
+//
+//        userProfile.setGoalKcal(goalKcal);
+//        userProfile.setGoalCarbs((goalKcal * 0.5) / 4);
+//        userProfile.setGoalProtein((goalKcal * 0.3) / 4);
+//        userProfile.setGoalFats((goalKcal * 0.2) / 9);
 
-        userGoal.setGoalKcal(goalKcal);
-        userGoal.setGoalCarbs((goalKcal * 0.5) / 4);
-        userGoal.setGoalProtein((goalKcal * 0.3) / 4);
-        userGoal.setGoalFats((goalKcal * 0.2) / 9);
-
-        return userGoal;
+        return userProfile;
     }
 
     private static double square(double x){
         return x * x;
     }
 
-    private static double calculateStandardWeight(UserGoal userGoal){
+    private static double calculateStandardWeight(UserProfile userProfile){
         // 표준 체중 계산: 키(m)^2*22 or 21
-        if(userGoal.getGender().equals("남성")){
-            return square(userGoal.getHeight() / 100.0) * 22;
+        if(userProfile.getGender().equals("남성")){
+            return square(userProfile.getHeight() / 100.0) * 22;
         }else {
-            return square(userGoal.getHeight() / 100.0) * 21;
+            return square(userProfile.getHeight() / 100.0) * 21;
         }
     }
 }

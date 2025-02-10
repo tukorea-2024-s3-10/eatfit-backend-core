@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.user.dto.request.SignupRequest;
 import tukorea_2024_s3_10.eat_fit.user.entity.User;
-import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
+import tukorea_2024_s3_10.eat_fit.user.entity.UserProfile;
 import tukorea_2024_s3_10.eat_fit.user.exception.EmailAlreadyExistsException;
 import tukorea_2024_s3_10.eat_fit.user.repository.UserGoalRepository;
 import tukorea_2024_s3_10.eat_fit.user.repository.UserRepository;
@@ -28,18 +28,18 @@ public class UserService {
                 .email(signupRequest.getEmail())
                 .build();
 
-        UserGoal userGoal = UserGoal.builder()
+        UserProfile userProfile = UserProfile.builder()
                 .birthYear(signupRequest.getBirthYear())
                 .gender(signupRequest.getGender())
-                .goalType(signupRequest.getGoalType())
+                .goalCategory(signupRequest.getGoalCategory())
                 .height(signupRequest.getHeight())
                 .weight(signupRequest.getWeight())
                 .user(user)
                 .build();
 
-        userGoal = UserGoalCalculator.recommendUserGoal(userGoal);
+        userProfile = UserGoalCalculator.recommendUserGoal(userProfile);
 
         userRepository.save(user);
-        userGoalRepository.save(userGoal);
+        userGoalRepository.save(userProfile);
     }
 }
