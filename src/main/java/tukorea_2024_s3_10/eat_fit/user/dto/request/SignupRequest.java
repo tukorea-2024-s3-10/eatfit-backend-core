@@ -13,4 +13,5 @@ public class SignupRequest {
     private double weight; // 몸무게
     private String goalCategory; // 목표 종류
     private double targetWeight; // 목표 몸무게
+    private String disease;
 }

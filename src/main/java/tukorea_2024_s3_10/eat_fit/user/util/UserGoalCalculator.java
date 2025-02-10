@@ -1,10 +1,11 @@
 package tukorea_2024_s3_10.eat_fit.user.util;
 
+import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
 import tukorea_2024_s3_10.eat_fit.user.entity.UserProfile;
 
 public class UserGoalCalculator {
 
-    public static UserProfile recommendUserGoal(UserProfile userProfile){
+    public static UserGoal recommendUserGoal(UserProfile userProfile){
         String goal = userProfile.getGoalCategory();
         UserProfile newUserProfile;
 

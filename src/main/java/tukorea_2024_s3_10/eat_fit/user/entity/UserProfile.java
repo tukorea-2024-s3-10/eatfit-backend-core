@@ -24,6 +24,6 @@ public class UserProfile {
     private int height;             // 키
     private double weight;          // 몸무게
     private String goalCategory;    // 사용자 목표
-    private int targetWeight;       // 목표 몸무게
+    private double targetWeight;       // 목표 몸무게
     private String disease;         // 질병 (필수 X)
 }
