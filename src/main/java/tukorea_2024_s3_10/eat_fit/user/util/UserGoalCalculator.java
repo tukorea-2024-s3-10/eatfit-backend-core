@@ -1,11 +1,11 @@
-package tukorea_2024_s3_10.eat_fit.global.user.util;
+package tukorea_2024_s3_10.eat_fit.user.util;
 
-import tukorea_2024_s3_10.eat_fit.global.user.entity.UserGoal;
+import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
 
 public class UserGoalCalculator {
 
     public static UserGoal recommendUserGoal(UserGoal userGoal){
-        String goal = userGoal.getGoal();
+        String goal = userGoal.getGoalType();
         UserGoal newUserGoal;
 
         /**

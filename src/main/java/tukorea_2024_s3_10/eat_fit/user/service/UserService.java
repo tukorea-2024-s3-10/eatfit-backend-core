@@ -1,13 +1,14 @@
-package tukorea_2024_s3_10.eat_fit.global.user.service;
+package tukorea_2024_s3_10.eat_fit.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tukorea_2024_s3_10.eat_fit.global.user.dto.request.SignupRequest;
-import tukorea_2024_s3_10.eat_fit.global.user.entity.User;
-import tukorea_2024_s3_10.eat_fit.global.user.entity.UserGoal;
-import tukorea_2024_s3_10.eat_fit.global.user.repository.UserGoalRepository;
-import tukorea_2024_s3_10.eat_fit.global.user.repository.UserRepository;
-import tukorea_2024_s3_10.eat_fit.global.user.util.UserGoalCalculator;
+import tukorea_2024_s3_10.eat_fit.user.dto.request.SignupRequest;
+import tukorea_2024_s3_10.eat_fit.user.entity.User;
+import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
+import tukorea_2024_s3_10.eat_fit.user.exception.EmailAlreadyExistsException;
+import tukorea_2024_s3_10.eat_fit.user.repository.UserGoalRepository;
+import tukorea_2024_s3_10.eat_fit.user.repository.UserRepository;
+import tukorea_2024_s3_10.eat_fit.user.util.UserGoalCalculator;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +18,9 @@ public class UserService {
     private final UserGoalRepository userGoalRepository;
 
     public void signup(SignupRequest signupRequest) {
-        /**
-         * (0.) 유효성 검증 < 컨트롤러 레벨에서
-         * 1. 이메일 중복 체크
-         */
+        if(userRepository.existsByEmail(signupRequest.getEmail())) {
+            throw new EmailAlreadyExistsException("이미 가입된 이메일입니다.");
+        }
 
         User user = User.builder()
                 .name(signupRequest.getName())
@@ -31,7 +31,7 @@ public class UserService {
         UserGoal userGoal = UserGoal.builder()
                 .birthYear(signupRequest.getBirthYear())
                 .gender(signupRequest.getGender())
-                .goal(signupRequest.getGoal())
+                .goalType(signupRequest.getGoalType())
                 .height(signupRequest.getHeight())
                 .weight(signupRequest.getWeight())
                 .user(user)
