@@ -1,20 +1,22 @@
 package tukorea_2024_s3_10.eat_fit.global.user.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserGoal {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 고유 id
-    private String email; // 이메일
+    @OneToOne
+    private User user;
     private String gender; // 성별
     private int birthYear; // 출생연도
     private int height; // 키(신장)
