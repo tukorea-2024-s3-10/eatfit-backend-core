@@ -4,3 +4,7 @@ spring:
 
   config:
     import: classpath:application-sec.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
