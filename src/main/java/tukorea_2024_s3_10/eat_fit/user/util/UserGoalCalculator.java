@@ -7,7 +7,7 @@ public class UserGoalCalculator {
 
     public static UserGoal recommendUserGoal(UserProfile userProfile){
         String goal = userProfile.getGoalCategory();
-        UserProfile newUserProfile;
+        UserGoal userGoal;
 
         /**
          * 회원가입 키, 몸무게, 목표, 서비스
@@ -16,16 +16,16 @@ public class UserGoalCalculator {
          *
          */
         switch(goal){
-            case "다이어트" -> newUserProfile = diet(userProfile);
-            case "운동" -> newUserProfile = exercise(userProfile);
-            case "건강" -> newUserProfile = health(userProfile);
+            case "다이어트" -> userGoal = diet(userProfile);
+            case "운동" -> userGoal = exercise(userProfile);
+            case "건강" -> userGoal = health(userProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
-        return newUserProfile;
+        return userGoal;
     }
 
-    private static UserProfile diet(UserProfile userProfile){
+    private static UserGoal diet(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
@@ -41,11 +41,25 @@ public class UserGoalCalculator {
 //        userProfile.setGoalProtein((goalKcal * 0.3) / 4);
 //        userProfile.setGoalFats((goalKcal * 0.3) / 9);
 
-        return userProfile;
+        UserGoal userGoal = UserGoal.builder()
+                .user(userProfile.getUser())
+                .calorieGoal(goalKcal)
+                .sodiumGoal(1)
+                .cholesterolGoal(1)
+                .sugarGoal(1)
+                .fatGoal(1)
+                .transFatGoal(1)
+                .saturatedFatGoal(1)
+                .cholesterolGoal(1)
+                .proteinGoal(1)
+                .build();
+
+
+        return userGoal;
 
     }
 
-    private static UserProfile exercise(UserProfile userProfile){
+    private static UserGoal exercise(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
@@ -60,10 +74,23 @@ public class UserGoalCalculator {
 //        userProfile.setGoalProtein((goalKcal * 0.4) / 4);
 //        userProfile.setGoalFats((goalKcal * 0.2) / 9);
 
-        return userProfile;
+        UserGoal userGoal = UserGoal.builder()
+                .user(userProfile.getUser())
+                .calorieGoal(goalKcal)
+                .sodiumGoal(1)
+                .cholesterolGoal(1)
+                .sugarGoal(1)
+                .fatGoal(1)
+                .transFatGoal(1)
+                .saturatedFatGoal(1)
+                .cholesterolGoal(1)
+                .proteinGoal(1)
+                .build();
+
+        return userGoal;
     }
 
-    private static UserProfile health(UserProfile userProfile){
+    private static UserGoal health(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
@@ -74,7 +101,22 @@ public class UserGoalCalculator {
 //        userProfile.setGoalProtein((goalKcal * 0.3) / 4);
 //        userProfile.setGoalFats((goalKcal * 0.2) / 9);
 
-        return userProfile;
+        UserGoal userGoal = UserGoal.builder()
+                .user(userProfile.getUser())
+                .calorieGoal(goalKcal)
+                .sodiumGoal(1)
+                .cholesterolGoal(1)
+                .sugarGoal(1)
+                .fatGoal(1)
+                .transFatGoal(1)
+                .saturatedFatGoal(1)
+                .cholesterolGoal(1)
+                .proteinGoal(1)
+                .build();
+
+
+
+        return userGoal;
     }
 
     private static double square(double x){
