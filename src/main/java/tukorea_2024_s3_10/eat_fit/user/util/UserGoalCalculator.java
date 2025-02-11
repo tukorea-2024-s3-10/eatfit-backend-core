@@ -22,11 +22,7 @@ public class UserGoalCalculator {
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
-<<<<<<< dev/feat/auth
-        return new UserGoal();
-=======
         return userGoal;
->>>>>>> main
     }
 
     private static UserGoal diet(UserProfile userProfile){
