@@ -1,9 +1,11 @@
 package tukorea_2024_s3_10.eat_fit.user.service;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.global.security.Encryption;
+import tukorea_2024_s3_10.eat_fit.user.dto.request.LoginRequest;
 import tukorea_2024_s3_10.eat_fit.user.dto.request.SignupRequest;
 import tukorea_2024_s3_10.eat_fit.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.user.entity.UserGoal;
@@ -53,5 +55,23 @@ public class UserService {
         userRepository.save(user);
         userProfileRepository.save(userProfile);
         userGoalRepository.save(userGoal);
+    }
+
+    public void login(LoginRequest loginRequest, HttpSession httpSession) {
+        User user = userRepository.findByEmail(loginRequest.getEmail());
+
+        if (user == null) {
+            System.out.println("로그인 실패");
+            return;
+        }
+
+        String salt = user.getSalt();
+
+        if (Encryption.sha256Encode(loginRequest.getPassword(), salt).equals(user.getPassword())) {
+            httpSession.setAttribute("userId", user.getId());
+            return;
+        }
+
+        System.out.println("로그인 실패");
     }
 }

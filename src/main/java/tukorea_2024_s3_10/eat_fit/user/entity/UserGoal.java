@@ -22,11 +22,11 @@ public class UserGoal {
 
     private int calorieGoal;       // 칼로리
     private int sodiumGoal;        // 나트륨
-    private int carbohydrateGoal;  // 탄수화물
-    private int sugarGoal;         // 당류
-    private int fatGoal;           // 지방
-    private int transFatGoal;      // 트랜스지방
-    private int saturatedFatGoal;  // 포화지방
+    private double carbohydrateGoal;  // 탄수화물
+    private double sugarGoal;         // 당류
+    private double fatGoal;           // 지방
+    private double transFatGoal;      // 트랜스지방
+    private double saturatedFatGoal;  // 포화지방
     private int cholesterolGoal;   // 콜레스테롤
-    private int proteinGoal;       // 단백질
+    private double proteinGoal;       // 단백질
 }
