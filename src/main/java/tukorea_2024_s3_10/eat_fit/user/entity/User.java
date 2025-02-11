@@ -23,6 +23,7 @@ public class User {
 
     private String email;
     private String password;
+    private String salt;
     private String name;
 
     @CreationTimestamp

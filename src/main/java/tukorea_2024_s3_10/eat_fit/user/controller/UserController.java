@@ -22,4 +22,10 @@ public class UserController {
         userService.signup(signupRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<ApiResponse<Void>> login(@RequestBody LoginRequest loginRequest){
+//        userService.login(loginRequest);
+//        return ResponseEntity.ok(ApiResponse.success(null));
+//    }
 }
