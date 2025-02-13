@@ -5,9 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SignupRequest {
-    private String email;
-    private String password;
+public class InitProfileRequest {
     private String name;
     private String gender; // 성별
     private int birthYear; // 출생연도

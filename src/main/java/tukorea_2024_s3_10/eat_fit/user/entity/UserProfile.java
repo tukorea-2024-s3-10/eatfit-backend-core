@@ -19,6 +19,7 @@ public class UserProfile {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+    private String name;
     private String gender;          // 성별
     private int birthYear;          // 출생연도
     private int height;             // 키

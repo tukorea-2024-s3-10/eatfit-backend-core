@@ -24,11 +24,10 @@ public class User {
 
     private String role;
 
-    private String password;
-    private String salt;
-    private String name;
-    private String refreshToken;
-
     @CreationTimestamp
     private Timestamp createdAt;
+
+    public void setRole(String role){
+        this.role = role;
+    }
 }
