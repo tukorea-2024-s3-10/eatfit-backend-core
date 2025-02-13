@@ -42,7 +42,9 @@ public class SecurityConfig {
                         .successHandler(customSuccessHandler)
                 )
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll() // 로그인 하지 않는 사용자들은 로그인 API만 호출 가능
+                        .requestMatchers("/api/users").hasRole("GUEST") // GUEST 사용자는 /api/users만 호출 가능
+                        .requestMatchers("/api/**").hasRole("USER") // USER 사용자는 온전한 서비스 이용 가능
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

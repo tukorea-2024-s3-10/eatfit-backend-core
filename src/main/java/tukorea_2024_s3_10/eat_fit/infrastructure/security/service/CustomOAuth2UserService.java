@@ -39,6 +39,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .username(username)
                     .build();
             userRepository.save(user);
+            UserDto userDto = new UserDto();
+            userDto.setUsername(username);
+            userDto.setRole("ROLE_GUEST");
+            return new CustomOAuth2User(userDto);
         }
         UserDto userDto = new UserDto();
         userDto.setUsername(existUser.getUsername());

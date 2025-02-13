@@ -35,7 +35,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, 60*60*60L);
+        String token = jwtUtil.createJwt(username, role, 60*60*60L*1000);
 
         response.addCookie(createCookie("Authorization", token));
 
@@ -43,7 +43,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             response.sendRedirect("http://localhost:3000/physical-info");
             return;
         }
-        response.sendRedirect("http://localhost:3000/recommended-intake");
+        response.sendRedirect("http://localhost:3000");
     }
 
     private Cookie createCookie(String key, String value) {
