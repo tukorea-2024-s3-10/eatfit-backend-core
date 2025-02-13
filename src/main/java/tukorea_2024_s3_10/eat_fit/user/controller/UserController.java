@@ -19,15 +19,15 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<Void>> signup(@RequestBody SignupRequest signupRequest) {
-        userService.signup(signupRequest);
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Void>> login(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
-        userService.login(loginRequest, httpSession);
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<ApiResponse<Void>> signup(@RequestBody SignupRequest signupRequest) {
+//        userService.signup(signupRequest);
+//        return ResponseEntity.ok(ApiResponse.success(null));
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<ApiResponse<Void>> login(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
+//        userService.login(loginRequest, httpSession);
+//        return ResponseEntity.ok(ApiResponse.success(null));
+//    }
 }

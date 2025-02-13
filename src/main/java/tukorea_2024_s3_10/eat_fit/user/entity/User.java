@@ -1,9 +1,6 @@
 package tukorea_2024_s3_10.eat_fit.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +20,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String email;
+    private String username;
+
+    private String role;
+
     private String password;
     private String salt;
     private String name;
+    private String refreshToken;
 
     @CreationTimestamp
     private Timestamp createdAt;
