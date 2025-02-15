@@ -1,5 +1,6 @@
 package tukorea_2024_s3_10.eat_fit.infrastructure.security.dto;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -9,10 +10,15 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
 
-    private final UserDto userDto;
+    @Getter
+    private final Long userId;
+    private final String oAuthId;
+    private final String role;
 
-    public CustomOAuth2User(UserDto userDto) {
-        this.userDto = userDto;
+    public CustomOAuth2User(Long userId, String oAuthId, String role) {
+        this.userId = userId;
+        this.oAuthId = oAuthId;
+        this.role = role;
     }
 
     @Override
@@ -23,21 +29,12 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return userDto.getRole();
-            }
-        });
+        authorities.add((GrantedAuthority) () -> role);
         return authorities;
     }
 
     @Override
     public String getName() {
-        return userDto.getUsername();
-    }
-
-    public String getUsername() {
-        return userDto.getUsername();
+        return oAuthId;
     }
 }
