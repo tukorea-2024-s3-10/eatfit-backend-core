@@ -1,13 +1,13 @@
 package tukorea_2024_s3_10.eat_fit.application.util;
 
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserProfile;
 
 public class UserGoalCalculator {
 
-    public static UserGoal recommendUserGoal(UserProfile userProfile){
+    public static UserIntakeGoal recommendUserGoal(UserProfile userProfile){
         String goal = userProfile.getGoalCategory();
-        UserGoal userGoal;
+        UserIntakeGoal userIntakeGoal;
 
         /**
          * 회원가입 키, 몸무게, 목표, 서비스
@@ -16,16 +16,16 @@ public class UserGoalCalculator {
          *
          */
         switch(goal){
-            case "다이어트" -> userGoal = diet(userProfile);
-            case "운동" -> userGoal = exercise(userProfile);
-            case "건강" -> userGoal = health(userProfile);
+            case "다이어트" -> userIntakeGoal = diet(userProfile);
+            case "운동" -> userIntakeGoal = exercise(userProfile);
+            case "건강" -> userIntakeGoal = health(userProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
-        return userGoal;
+        return userIntakeGoal;
     }
 
-    private static UserGoal diet(UserProfile userProfile){
+    private static UserIntakeGoal diet(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
@@ -36,7 +36,7 @@ public class UserGoalCalculator {
         }
 
 
-        UserGoal userGoal = UserGoal.builder()
+        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
                 .user(userProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
@@ -50,11 +50,11 @@ public class UserGoalCalculator {
                 .build();
 
 
-        return userGoal;
+        return userIntakeGoal;
 
     }
 
-    private static UserGoal exercise(UserProfile userProfile){
+    private static UserIntakeGoal exercise(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
@@ -65,7 +65,7 @@ public class UserGoalCalculator {
         }
 
 
-        UserGoal userGoal = UserGoal.builder()
+        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
                 .user(userProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
@@ -78,16 +78,16 @@ public class UserGoalCalculator {
                 .proteinGoal(1)
                 .build();
 
-        return userGoal;
+        return userIntakeGoal;
     }
 
-    private static UserGoal health(UserProfile userProfile){
+    private static UserIntakeGoal health(UserProfile userProfile){
         double standardWeight = calculateStandardWeight(userProfile);
         int goalKcal;
 
         goalKcal = (int)(standardWeight*30);
 
-        UserGoal userGoal = UserGoal.builder()
+        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
                 .user(userProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(2000)
@@ -102,7 +102,7 @@ public class UserGoalCalculator {
 
 
 
-        return userGoal;
+        return userIntakeGoal;
     }
 
     private static double square(double x){

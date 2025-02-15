@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.domain.user.entity;
+package tukorea_2024_s3_10.eat_fit.domain.auth;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String oauthId;

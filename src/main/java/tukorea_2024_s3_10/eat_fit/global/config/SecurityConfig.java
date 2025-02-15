@@ -12,11 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.handler.CustomSuccessHandler;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtFilter;
 import tukorea_2024_s3_10.eat_fit.application.service.CustomOAuth2UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -27,6 +29,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
+    private final RefreshRepository refreshRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,13 +38,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterAfter(new JwtFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class)
+                .addFilterAfter(new JwtFilter(jwtUtil, refreshRepository), OAuth2LoginAuthenticationFilter.class)
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler)
                 )
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/oauth2/**").permitAll() // 로그인 하지 않는 사용자들은 로그인 API만 호출 가능
                         .requestMatchers("/api/users").hasRole("GUEST") // GUEST 사용자는 /api/users만 호출 가능
                         .requestMatchers("/api/**").hasRole("USER") // USER 사용자는 온전한 서비스 이용 가능
@@ -58,7 +62,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000")); // 허용할 Origin
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 쿠키, 세션 인증 정보 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

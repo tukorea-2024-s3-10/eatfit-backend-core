@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 
 @Entity
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGoal {
+public class UserIntakeGoal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

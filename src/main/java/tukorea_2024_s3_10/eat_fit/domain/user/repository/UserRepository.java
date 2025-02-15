@@ -1,6 +1,6 @@
 package tukorea_2024_s3_10.eat_fit.domain.user.repository;
 
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
+import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 
 import java.util.Optional;
 
