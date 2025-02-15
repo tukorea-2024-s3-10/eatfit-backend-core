@@ -2,12 +2,11 @@ package tukorea_2024_s3_10.eat_fit.presentation.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
-import tukorea_2024_s3_10.eat_fit.presentation.user.dto.InitProfileRequest;
+import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileInitRequest;
 import tukorea_2024_s3_10.eat_fit.application.service.UserService;
 
 @RestController
@@ -18,8 +17,19 @@ public class UserProfileController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> initProfile(@RequestBody InitProfileRequest initProfileRequest) {
-        userService.initProfile(initProfileRequest);
+    public ResponseEntity<ApiResponse<Void>> initProfile(@RequestBody ProfileInitRequest profileInitRequest) {
+        userService.initProfile(profileInitRequest);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<ProfileResponse>> getUserProfile() {
+        return ResponseEntity.ok(ApiResponse.success(userService.getProfile()));
+    }
+
+    @PatchMapping
+    public ResponseEntity<ApiResponse<Void>> editProfile(@RequestBody ProfileEditRequest profileEditRequest) {
+        userService.editProfile(profileEditRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

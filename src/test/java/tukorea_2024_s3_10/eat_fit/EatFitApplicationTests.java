@@ -8,6 +8,6 @@ class EatFitApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
 
+	}
 }
