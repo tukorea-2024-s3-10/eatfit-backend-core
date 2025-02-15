@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Builder
@@ -19,5 +21,6 @@ public class WeightRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
+    private double weight;
+    private Date date;
 }
