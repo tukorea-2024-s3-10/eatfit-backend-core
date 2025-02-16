@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.domain.food;
+package tukorea_2024_s3_10.eat_fit.domain.food.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -61,6 +61,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public void editProfile(ProfileEditRequest profileEditRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
