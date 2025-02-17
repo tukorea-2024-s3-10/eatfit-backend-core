@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.infrastructure.user.persistence;
+package tukorea_2024_s3_10.eat_fit.infrastructure.user.Repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class MysqlDbUserRepository implements UserRepository {
+public class DbUserRepository implements UserRepository {
 
-    private final SpringDataMysqlUserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     @Override
     public Optional<User> findByOauthId(String oAuthId) {

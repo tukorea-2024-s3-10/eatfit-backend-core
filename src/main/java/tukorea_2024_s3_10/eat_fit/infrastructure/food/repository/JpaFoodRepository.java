@@ -7,6 +7,7 @@ import tukorea_2024_s3_10.eat_fit.domain.food.repository.FoodRepository;
 
 import java.util.List;
 
-@Repository
-public interface JpaFoodRepository extends FoodRepository, JpaRepository<Food, Long> {
+
+public interface JpaFoodRepository extends JpaRepository<Food, Long>{
+    List<Food> findByName(String name);
 }

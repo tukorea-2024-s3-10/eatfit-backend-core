@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
-import tukorea_2024_s3_10.eat_fit.application.util.UserGoalCalculator;
 import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
@@ -13,7 +12,7 @@ import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileInitRequest;
 import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserProfile;
-import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserGoalRepository;
+import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 
@@ -24,7 +23,7 @@ import static tukorea_2024_s3_10.eat_fit.application.util.UserGoalCalculator.rec
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserGoalRepository userGoalRepository;
+    private final UserIntakeGoalRepository userIntakeGoalRepository;
     private final UserProfileRepository userProfileRepository;
 
     @Transactional
@@ -45,7 +44,7 @@ public class UserService {
 
         // 유저 맞춤 섭취량 설정
         UserIntakeGoal userIntakeGoal = recommendUserGoal(userProfile);
-        userGoalRepository.save(userIntakeGoal);
+        userIntakeGoalRepository.save(userIntakeGoal);
 
         userProfileRepository.save(userProfile);
         user.changeRole(Role.ROLE_USER);
@@ -78,7 +77,7 @@ public class UserService {
 
         // 유저 맞춤 섭취량 설정
         UserIntakeGoal userIntakeGoal = recommendUserGoal(userProfile);
-        userGoalRepository.save(userIntakeGoal);
+        userIntakeGoalRepository.save(userIntakeGoal);
 
         userProfileRepository.save(userProfile);
 
@@ -88,7 +87,7 @@ public class UserService {
     public IntakeGoalResponse getIntakeGoal() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        UserIntakeGoal userIntakeGoal = userGoalRepository.findById(currentUserId).get();
+        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findById(currentUserId).get();
 
         return new IntakeGoalResponse(userIntakeGoal);
     }
