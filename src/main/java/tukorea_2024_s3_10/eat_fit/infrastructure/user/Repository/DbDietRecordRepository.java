@@ -20,6 +20,6 @@ public class DbDietRecordRepository implements DietRecordRepository {
 
     @Override
     public List<DietRecord> findByUserIdAndDate(long userId, LocalDate date){
-        dietRecordRepository.findByUserIdAndDate(userId, date);
+        return dietRecordRepository.findByUserIdAndDate(userId, date);
     }
 }
