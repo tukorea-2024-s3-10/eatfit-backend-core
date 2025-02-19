@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
+import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
 import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
@@ -16,6 +19,9 @@ import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepositor
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import static tukorea_2024_s3_10.eat_fit.application.util.UserGoalCalculator.recommendUserGoal;
 
 @Service
@@ -25,6 +31,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserIntakeGoalRepository userIntakeGoalRepository;
     private final UserProfileRepository userProfileRepository;
+    private final DietRecordRepository dietRecordRepository;
 
     @Transactional
     public void initProfile(ProfileInitRequest profileInitRequest) {
@@ -90,5 +97,18 @@ public class UserService {
         UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findById(currentUserId).get();
 
         return new IntakeGoalResponse(userIntakeGoal);
+    }
+
+    public TodayIntakeResponse calculateTodayIntake() {
+
+        // 현재 사용자와 오늘의 날짜를 바탕으로
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        LocalDate today = LocalDate.now();
+
+        // 오늘 먹었던 식단을 조회
+        List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, today);
+
+        // 오늘 먹었던 식단들의 영양 성분을 합해 응답 객체 생성
+        return new TodayIntakeResponse(todayDietRecords);
     }
 }
