@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,5 +21,5 @@ public class WeightRecord {
     private User user;
 
     private double weight;
-    private Date date;
+    private LocalDate date;
 }
