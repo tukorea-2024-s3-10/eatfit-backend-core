@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.presentation;
+package tukorea_2024_s3_10.eat_fit.presentation.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
@@ -7,25 +7,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshEntity;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
 
 import java.util.Date;
 
-@Controller
-@ResponseBody
+@RestController
+@RequestMapping("/api/core/auth")
 @RequiredArgsConstructor
-public class ReissueController {
+public class AuthController {
 
     private final JwtUtil jwtUtil;
     private final RefreshRepository refreshRepository;
 
-
-    @PostMapping("/reissue")
+    @PostMapping("/refresh")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 
         //get refresh token
