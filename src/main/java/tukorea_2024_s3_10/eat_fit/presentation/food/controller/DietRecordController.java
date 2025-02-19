@@ -21,4 +21,10 @@ public class DietRecordController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    @GetMapping
+    public ResponseEntity<ApiResponse<DietRecordResponse>> getDietRecord(@RequestParam Long dietId) {
+        DietRecordResponse dietRecordResponse = dietRecordService.getDietRecord(dietId);
+        return ResponseEntity.ok(ApiResponse.success(dietRecordResponse));
+    }
+
 }

@@ -7,6 +7,7 @@ import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,5 +22,10 @@ public class DbDietRecordRepository implements DietRecordRepository {
     @Override
     public List<DietRecord> findByUserIdAndDate(long userId, LocalDate date){
         return dietRecordRepository.findByUserIdAndDate(userId, date);
+    }
+
+    @Override
+    public Optional<DietRecord> findById(long id){
+        return dietRecordRepository.findById(id);
     }
 }

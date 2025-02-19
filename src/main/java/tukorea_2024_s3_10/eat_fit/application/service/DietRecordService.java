@@ -3,6 +3,7 @@ package tukorea_2024_s3_10.eat_fit.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tukorea_2024_s3_10.eat_fit.application.dto.DietRecordResponse;
 import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
@@ -40,6 +41,11 @@ public class DietRecordService {
                 .build();
 
         dietRecordRepository.save(dietRecord);
+    }
+
+    public DietRecordResponse getDietRecord(Long Id){
+        DietRecord dietRecord = dietRecordRepository.findById(Id).get();
+        return new DietRecordResponse(dietRecord);
     }
 
 

@@ -1,11 +1,13 @@
 package tukorea_2024_s3_10.eat_fit.application.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class DietRecordResponse {
     private LocalDate date; // 날짜
     private String mealType; // 식사 유형 (아침, 점심, 간식 등)

@@ -3,6 +3,7 @@ package tukorea_2024_s3_10.eat_fit.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
 import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.WeightRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
@@ -50,6 +51,12 @@ public class WeightRecordService {
 
         weightRecordRepository.save(weightRecord);
 
+    }
+
+    public WeightRecordResponse getWeightRecord(Long id){
+        WeightRecord weightRecord = weightRecordRepository.findById(id).get();
+
+        return new WeightRecordResponse(weightRecord);
     }
 
 }

@@ -1,9 +1,11 @@
 package tukorea_2024_s3_10.eat_fit.application.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import tukorea_2024_s3_10.eat_fit.domain.food.entity.Food;
 
 @Getter
+@Setter
 public class FoodResponse {
     private String name;
     private int mass; // 음식 질량(g)
