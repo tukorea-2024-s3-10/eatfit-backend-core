@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,20 +26,20 @@ public class AuthController {
     private final RefreshRepository refreshRepository;
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(@CookieValue(name = "refresh", required = false) String refreshToken, HttpServletRequest request, HttpServletResponse response) {
 
-        //get refresh token
-        String refresh = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
+//        //get refresh token
+//        String refreshToken = null;
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie cookie : cookies) {
+//
+//            if (cookie.getName().equals("refresh")) {
+//
+//                refreshToken = cookie.getValue();
+//            }
+//        }
 
-            if (cookie.getName().equals("refresh")) {
-
-                refresh = cookie.getValue();
-            }
-        }
-
-        if (refresh == null) {
+        if (refreshToken == null) {
 
             //response status code
             return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
@@ -46,7 +47,7 @@ public class AuthController {
 
         //expired check
         try {
-            jwtUtil.isExpired(refresh);
+            jwtUtil.isExpired(refreshToken);
         } catch (ExpiredJwtException e) {
 
             //response status code
@@ -54,7 +55,7 @@ public class AuthController {
         }
 
         // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
-        String category = jwtUtil.getTokenType(refresh);
+        String category = jwtUtil.getTokenType(refreshToken);
 
         if (!category.equals("refresh")) {
 
@@ -62,16 +63,16 @@ public class AuthController {
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }
 
-        Boolean isExist = refreshRepository.existsByRefresh(refresh);
+        Boolean isExist = refreshRepository.existsByRefresh(refreshToken);
         if (!isExist) {
 
             //response body
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }
 
-        Long userId = jwtUtil.getUserId(refresh);
-        String oAuthId = jwtUtil.getOAuthId(refresh);
-        String role = jwtUtil.getRole(refresh);
+        Long userId = jwtUtil.getUserId(refreshToken);
+        String oAuthId = jwtUtil.getOAuthId(refreshToken);
+        String role = jwtUtil.getRole(refreshToken);
 
         //make new JWT
         String newAccess = jwtUtil.createJwt("access", oAuthId, userId, role, 600000L);
@@ -79,7 +80,7 @@ public class AuthController {
 
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
-        refreshRepository.deleteByRefresh(refresh);
+        refreshRepository.deleteByRefresh(refreshToken);
         addRefreshEntity(oAuthId, newRefresh, 86400000L);
         //response
         System.out.println("newRefresh: " + newRefresh);
@@ -92,7 +93,7 @@ public class AuthController {
     private Cookie createCookie(String key, String value) {
 
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24*60*60);
+        cookie.setMaxAge(24 * 60 * 60);
         //cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
