@@ -19,7 +19,7 @@ public class DietRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
 
     private LocalDate date; // 날짜
