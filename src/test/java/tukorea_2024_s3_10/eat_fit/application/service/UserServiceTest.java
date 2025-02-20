@@ -10,7 +10,7 @@ import org.mockito.quality.Strictness;
 import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
+import tukorea_2024_s3_10.eat_fit.security.security.SecurityUtil;
 
 import java.time.LocalDate;
 import java.util.List;

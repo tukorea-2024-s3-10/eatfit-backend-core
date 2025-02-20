@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.infrastructure.jwt;
+package tukorea_2024_s3_10.eat_fit.security.jwt;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,14 +40,14 @@ public class JwtUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String tokenType, String oAuthId, Long userId, String role, Long expiredMs) {
+    public String createJwt(String tokenType, String oauthId, Long userId, String role, Long expirationMs) {
         return Jwts.builder()
                 .claim("tokenType", tokenType)
-                .claim("oAuthId", oAuthId)
+                .claim("oauthId", oauthId)
                 .claim("userId", userId)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .expiration(new Date(System.currentTimeMillis() + expirationMs)) // 만료 날짜 설정
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }

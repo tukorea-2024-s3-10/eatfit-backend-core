@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.infrastructure.security.dto;
+package tukorea_2024_s3_10.eat_fit.security.security.dto;
 
 import java.util.Map;
 

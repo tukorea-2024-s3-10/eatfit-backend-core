@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.infrastructure.security.handler;
+package tukorea_2024_s3_10.eat_fit.security.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -12,8 +12,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshEntity;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.dto.CustomOAuth2User;
+import tukorea_2024_s3_10.eat_fit.security.jwt.JwtUtil;
+import tukorea_2024_s3_10.eat_fit.security.CustomOAuth2User;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -33,20 +33,31 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
         Long userId = customUserDetails.getUserId();
-        String oAuthId = customUserDetails.getName();
+        String oauthId = customUserDetails.getName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", oAuthId, userId, role, 600000L);
-        String refresh = jwtUtil.createJwt("refresh", oAuthId, userId, role, 86400000L);
+        // Access Token 수명 : 1시간
+        // String access = jwtUtil.createJwt("access", oAuthId, userId, role, 1000 * 60 * 60L);
 
-        addRefreshEntity(oAuthId, refresh, 86400000L);
+        // Refresh Token 수명 : 2주
+        String refresh = jwtUtil.createJwt("refresh_token", oauthId, userId, role, 1000 * 60 * 60 * 24 * 14L);
 
-        response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
+        addRefreshEntity(userId, refresh, 1000 * 60 * 60 * 24 * 14L);
+
+        /**
+         * Access Token은 헤더로 전송하는데 리다이렉션 방식에서는 클라이언트가 받을 방법이 존재하지 않는다.
+         * 따라서 Refresh Token만 발급하고 Access Token은 별도로 받는 방식으로 진행
+         */
+        // Access Token은 Authorization 헤더에 "Bearer " + Access Token 형태로 전송
+        // response.setHeader("Authorization", "Bearer " + access);
+
+        // Refresh Token은 쿠키로 전송
+        response.addCookie(createCookie("refresh_token", refresh));
+
         response.setStatus(HttpStatus.OK.value());
 
         if (role.equals("ROLE_GUEST")) {
@@ -56,9 +67,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.sendRedirect("http://localhost:3000");
     }
 
-    private Cookie createCookie(String key, String value) {
+    private Cookie createCookie(String name, String value) {
 
-        Cookie cookie = new Cookie(key, value);
+        Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(24 * 60 * 60);
         //cookie.setSecure(true);
         cookie.setPath("/");
@@ -67,12 +78,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return cookie;
     }
 
-    private void addRefreshEntity(String oAuthId, String refresh, Long expiredMs) {
+    private void addRefreshEntity(Long userId, String refresh, Long expiredMs) {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
         RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setOauthId(oAuthId);
+        refreshEntity.setUserId(userId);
         refreshEntity.setRefresh(refresh);
         refreshEntity.setExpiration(date.toString());
 

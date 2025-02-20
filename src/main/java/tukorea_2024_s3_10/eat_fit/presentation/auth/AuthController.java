@@ -1,22 +1,20 @@
 package tukorea_2024_s3_10.eat_fit.presentation.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tukorea_2024_s3_10.eat_fit.domain.RefreshEntity;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
+import tukorea_2024_s3_10.eat_fit.security.jwt.JwtUtil;
 
-import java.util.Date;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/core/auth")
 @RequiredArgsConstructor
@@ -25,91 +23,30 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final RefreshRepository refreshRepository;
 
-    @PostMapping("/refresh")
-    public ResponseEntity<?> reissue(@CookieValue(name = "refresh", required = false) String refreshToken, HttpServletRequest request, HttpServletResponse response) {
-
-//        //get refresh token
-//        String refreshToken = null;
-//        Cookie[] cookies = request.getCookies();
-//        for (Cookie cookie : cookies) {
-//
-//            if (cookie.getName().equals("refresh")) {
-//
-//                refreshToken = cookie.getValue();
-//            }
-//        }
-
-        if (refreshToken == null) {
-
-            //response status code
-            return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
+    @Operation(summary = "access_token 재발급", description = "refresh_token을 이용한 access_token 재발급")
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> sendAccessTokenByRefreshToken(@CookieValue(name = "refresh_token", required = false) String refreshToken, HttpServletResponse response) {
+        // refresh_token이 서버에서 관리 중인 목록에 없는 경우
+        if (!refreshRepository.existsByRefresh(refreshToken)) {
+            return new ResponseEntity<>("invalid refresh_token", HttpStatus.UNAUTHORIZED);
         }
 
-        //expired check
         try {
             jwtUtil.isExpired(refreshToken);
         } catch (ExpiredJwtException e) {
-
-            //response status code
-            return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
-        }
-
-        // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
-        String category = jwtUtil.getTokenType(refreshToken);
-
-        if (!category.equals("refresh")) {
-
-            //response status code
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
-        }
-
-        Boolean isExist = refreshRepository.existsByRefresh(refreshToken);
-        if (!isExist) {
-
-            //response body
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("refresh_token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         Long userId = jwtUtil.getUserId(refreshToken);
         String oAuthId = jwtUtil.getOAuthId(refreshToken);
         String role = jwtUtil.getRole(refreshToken);
 
-        //make new JWT
-        String newAccess = jwtUtil.createJwt("access", oAuthId, userId, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", oAuthId, userId, role, 86400000L);
+        // Access Token 수명 : 1시간
+        String accessToken = jwtUtil.createJwt("access_token", oAuthId, userId, role, 1000 * 60 * 60L);
 
+        response.setHeader("Authorization", "Bearer " + accessToken);
 
-        //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
-        refreshRepository.deleteByRefresh(refreshToken);
-        addRefreshEntity(oAuthId, newRefresh, 86400000L);
-        //response
-        System.out.println("newRefresh: " + newRefresh);
-        response.setHeader("access", newAccess);
-        response.addCookie(createCookie("refresh", newRefresh));
-
+        log.info("액세스 토큰 재발급 성공");
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private Cookie createCookie(String key, String value) {
-
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
-        //cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-
-        return cookie;
-    }
-
-    private void addRefreshEntity(String oAuthId, String refresh, Long expiredMs) {
-
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setOauthId(oAuthId);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
-
-        refreshRepository.save(refreshEntity);
     }
 }

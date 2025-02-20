@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.application.service;
+package tukorea_2024_s3_10.eat_fit.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
 import tukorea_2024_s3_10.eat_fit.domain.auth.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.dto.*;
+import tukorea_2024_s3_10.eat_fit.security.security.dto.KakaoResponse;
+import tukorea_2024_s3_10.eat_fit.security.security.dto.NaverResponse;
+import tukorea_2024_s3_10.eat_fit.security.security.dto.OAuth2Response;
 
 @Service
 @RequiredArgsConstructor

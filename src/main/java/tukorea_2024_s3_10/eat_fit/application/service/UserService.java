@@ -9,7 +9,7 @@ import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
+import tukorea_2024_s3_10.eat_fit.security.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileInitRequest;
