@@ -12,12 +12,12 @@ import tukorea_2024_s3_10.eat_fit.application.service.UserService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/core/users/profile")
-public class UserProfileController {
+public class ProfileController {
 
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> initProfile(@RequestBody ProfileInitRequest profileInitRequest) {
+    public ResponseEntity<ApiResponse<Void>> initializeProfile(@RequestBody ProfileInitRequest profileInitRequest) {
         userService.initProfile(profileInitRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
