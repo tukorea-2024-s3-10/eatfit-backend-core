@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import tukorea_2024_s3_10.eat_fit.domain.food.entity.Food;
 import tukorea_2024_s3_10.eat_fit.domain.food.repository.FoodRepository;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository

@@ -1,7 +1,7 @@
 package tukorea_2024_s3_10.eat_fit.infrastructure.user.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
+import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 
 import java.time.LocalDate;
 import java.util.List;

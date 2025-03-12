@@ -2,7 +2,7 @@ package tukorea_2024_s3_10.eat_fit.infrastructure.user.Repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.WeightRecord;
+import tukorea_2024_s3_10.eat_fit.domain.user.WeightRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.WeightRecordRepository;
 
 import java.util.Optional;

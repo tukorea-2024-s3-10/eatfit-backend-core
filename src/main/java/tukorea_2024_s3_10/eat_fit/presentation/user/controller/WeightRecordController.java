@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
 import tukorea_2024_s3_10.eat_fit.application.service.WeightRecordService;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.WeightRecord;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordEditRequest;
