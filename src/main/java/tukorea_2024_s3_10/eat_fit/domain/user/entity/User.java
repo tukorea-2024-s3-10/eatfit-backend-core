@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
 
 import java.sql.Timestamp;
 

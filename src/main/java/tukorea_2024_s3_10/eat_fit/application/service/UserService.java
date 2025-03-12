@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
-import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
@@ -44,7 +44,6 @@ public class UserService {
                 .targetWeight(profileInitRequest.getTargetWeight())
                 .weight(profileInitRequest.getWeight())
                 .height(profileInitRequest.getHeight())
-                .user(user)
                 .build();
 
 

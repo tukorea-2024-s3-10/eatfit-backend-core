@@ -14,7 +14,7 @@ public class DbUserProfileRepository implements UserProfileRepository {
 
     @Override
     public Optional<BodyProfile> findById(Long id) {
-        return userProfileRepository.findById(id);
+        return null;
     }
 
     @Override

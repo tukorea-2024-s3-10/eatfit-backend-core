@@ -12,8 +12,7 @@ import lombok.*;
 public class BodyProfile {
 
     @Id
-    @OneToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Long userId;
 
     private String gender; // 성별
 

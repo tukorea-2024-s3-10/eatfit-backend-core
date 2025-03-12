@@ -37,7 +37,6 @@ public class UserGoalCalculator {
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -66,7 +65,6 @@ public class UserGoalCalculator {
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -88,7 +86,6 @@ public class UserGoalCalculator {
         goalKcal = (int)(standardWeight*30);
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(2000)
                 .carbohydrateGoal((goalKcal*0.15))
