@@ -4,15 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
-import tukorea_2024_s3_10.eat_fit.domain.auth.User;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.WeightRecord;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
+import tukorea_2024_s3_10.eat_fit.domain.user.WeightRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.WeightRecordRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordEditRequest;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

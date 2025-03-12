@@ -1,8 +1,8 @@
-package tukorea_2024_s3_10.eat_fit.domain.user.entity;
+package tukorea_2024_s3_10.eat_fit.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-import tukorea_2024_s3_10.eat_fit.domain.auth.User;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 
 import java.time.LocalDate;
 

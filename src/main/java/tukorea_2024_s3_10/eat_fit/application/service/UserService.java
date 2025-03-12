@@ -6,15 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
 import tukorea_2024_s3_10.eat_fit.domain.auth.Role;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.DietRecord;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
+import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileInitRequest;
-import tukorea_2024_s3_10.eat_fit.domain.auth.User;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserProfile;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
@@ -39,9 +39,8 @@ public class UserService {
 
         User user = userRepository.findById(currentUserId).get();
 
-        UserProfile userProfile = UserProfile.builder()
-                .name(profileInitRequest.getName())
-                .birthYear(profileInitRequest.getBirthYear())
+        BodyProfile bodyProfile = BodyProfile.builder()
+                .age(profileInitRequest.getBirthYear())
                 .targetWeight(profileInitRequest.getTargetWeight())
                 .weight(profileInitRequest.getWeight())
                 .height(profileInitRequest.getHeight())
@@ -50,10 +49,10 @@ public class UserService {
 
 
         // 유저 맞춤 섭취량 설정
-        UserIntakeGoal userIntakeGoal = recommendUserGoal(userProfile);
+        UserIntakeGoal userIntakeGoal = recommendUserGoal(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
 
-        userProfileRepository.save(userProfile);
+        userProfileRepository.save(bodyProfile);
         user.changeRole(Role.ROLE_USER);
         userRepository.save(user);
     }
@@ -61,9 +60,9 @@ public class UserService {
     public ProfileResponse getProfile() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        UserProfile userProfile = userProfileRepository.findById(currentUserId).get();
+        BodyProfile bodyProfile = userProfileRepository.findById(currentUserId).get();
 
-        return new ProfileResponse(userProfile);
+        return new ProfileResponse(bodyProfile);
 
     }
 
@@ -71,22 +70,18 @@ public class UserService {
     public void editProfile(ProfileEditRequest profileEditRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        UserProfile userProfile = userProfileRepository.findById(currentUserId).get();
+        BodyProfile bodyProfile = userProfileRepository.findById(currentUserId).get();
 
-        userProfile.setName(profileEditRequest.getName());
-        userProfile.setGender(profileEditRequest.getGender());
-        userProfile.setBirthYear(profileEditRequest.getBirthYear());
-        userProfile.setHeight(profileEditRequest.getHeight());
-        userProfile.setWeight(profileEditRequest.getWeight());
-        userProfile.setGoalCategory(profileEditRequest.getGoalCategory());
-        userProfile.setTargetWeight(profileEditRequest.getTargetWeight());
-        userProfile.setDisease(profileEditRequest.getDisease());
+        bodyProfile.setGender(profileEditRequest.getGender());
+        bodyProfile.setHeight(profileEditRequest.getHeight());
+        bodyProfile.setWeight(profileEditRequest.getWeight());
+        bodyProfile.setTargetWeight(profileEditRequest.getTargetWeight());
 
         // 유저 맞춤 섭취량 설정
-        UserIntakeGoal userIntakeGoal = recommendUserGoal(userProfile);
+        UserIntakeGoal userIntakeGoal = recommendUserGoal(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
 
-        userProfileRepository.save(userProfile);
+        userProfileRepository.save(bodyProfile);
 
 
     }

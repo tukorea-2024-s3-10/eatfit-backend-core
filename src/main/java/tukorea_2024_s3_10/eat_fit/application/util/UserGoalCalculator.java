@@ -1,12 +1,12 @@
 package tukorea_2024_s3_10.eat_fit.application.util;
 
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserProfile;
+import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 
 public class UserGoalCalculator {
 
-    public static UserIntakeGoal recommendUserGoal(UserProfile userProfile){
-        String goal = userProfile.getGoalCategory();
+    public static UserIntakeGoal recommendUserGoal(BodyProfile bodyProfile){
+        String goal = bodyProfile.getTargetType();
         UserIntakeGoal userIntakeGoal;
 
         /**
@@ -16,28 +16,28 @@ public class UserGoalCalculator {
          *
          */
         switch(goal){
-            case "다이어트" -> userIntakeGoal = diet(userProfile);
-            case "운동" -> userIntakeGoal = exercise(userProfile);
-            case "건강" -> userIntakeGoal = health(userProfile);
+            case "다이어트" -> userIntakeGoal = diet(bodyProfile);
+            case "운동" -> userIntakeGoal = exercise(bodyProfile);
+            case "건강" -> userIntakeGoal = health(bodyProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
         return userIntakeGoal;
     }
 
-    private static UserIntakeGoal diet(UserProfile userProfile){
-        double standardWeight = calculateStandardWeight(userProfile);
+    private static UserIntakeGoal diet(BodyProfile bodyProfile){
+        double standardWeight = calculateStandardWeight(bodyProfile);
         int goalKcal;
 
-        if(standardWeight > userProfile.getWeight()){
-            goalKcal = (int)(userProfile.getWeight()*25);
+        if(standardWeight > bodyProfile.getWeight()){
+            goalKcal = (int)(bodyProfile.getWeight()*25);
         }else{
             goalKcal = (int)(standardWeight*25);
         }
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(userProfile.getUser())
+                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -54,19 +54,19 @@ public class UserGoalCalculator {
 
     }
 
-    private static UserIntakeGoal exercise(UserProfile userProfile){
-        double standardWeight = calculateStandardWeight(userProfile);
+    private static UserIntakeGoal exercise(BodyProfile bodyProfile){
+        double standardWeight = calculateStandardWeight(bodyProfile);
         int goalKcal;
 
-        if(standardWeight > userProfile.getWeight()){
-            goalKcal = (int)(userProfile.getWeight()*35);
+        if(standardWeight > bodyProfile.getWeight()){
+            goalKcal = (int)(bodyProfile.getWeight()*35);
         }else{
-            goalKcal = (int)(userProfile.getWeight()*40);
+            goalKcal = (int)(bodyProfile.getWeight()*40);
         }
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(userProfile.getUser())
+                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -81,14 +81,14 @@ public class UserGoalCalculator {
         return userIntakeGoal;
     }
 
-    private static UserIntakeGoal health(UserProfile userProfile){
-        double standardWeight = calculateStandardWeight(userProfile);
+    private static UserIntakeGoal health(BodyProfile bodyProfile){
+        double standardWeight = calculateStandardWeight(bodyProfile);
         int goalKcal;
 
         goalKcal = (int)(standardWeight*30);
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .user(userProfile.getUser())
+                .user(bodyProfile.getUser())
                 .calorieGoal(goalKcal)
                 .sodiumGoal(2000)
                 .carbohydrateGoal((goalKcal*0.15))
@@ -109,12 +109,12 @@ public class UserGoalCalculator {
         return x * x;
     }
 
-    private static double calculateStandardWeight(UserProfile userProfile){
+    private static double calculateStandardWeight(BodyProfile bodyProfile){
         // 표준 체중 계산: 키(m)^2*22 or 21(여성)
-        if(userProfile.getGender().equals("남성")){
-            return square(userProfile.getHeight() / 100.0) * 22;
+        if(bodyProfile.getGender().equals("남성")){
+            return square(bodyProfile.getHeight() / 100.0) * 22;
         }else {
-            return square(userProfile.getHeight() / 100.0) * 21;
+            return square(bodyProfile.getHeight() / 100.0) * 21;
         }
     }
 }
