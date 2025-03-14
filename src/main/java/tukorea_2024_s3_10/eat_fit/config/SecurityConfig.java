@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
@@ -45,11 +46,12 @@ public class SecurityConfig {
                         .successHandler(customSuccessHandler)
                 )
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/reissue","/swagger-ui/**").permitAll()
-                        .requestMatchers("/oauth2/**").permitAll() // 로그인 하지 않는 사용자들은 로그인 API만 호출 가능
-                        .requestMatchers("/api/users").hasRole("GUEST") // GUEST 사용자는 /api/users만 호출 가능
-                        .requestMatchers("/api/**").hasRole("USER") // USER 사용자는 온전한 서비스 이용 가능
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
+//                        .requestMatchers("/reissue","/swagger-ui/**").permitAll()
+//                        .requestMatchers("/oauth2/**").permitAll() // 로그인 하지 않는 사용자들은 로그인 API만 호출 가능
+//                        .requestMatchers("/api/core/users/profile").hasRole("GUEST") // GUEST 사용자는 /api/users만 호출 가능
+//                        .requestMatchers("/api/**").hasRole("USER") // USER 사용자는 온전한 서비스 이용 가능
+//                        .anyRequest().authenticated())
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -60,13 +62,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // 허용할 Origin
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-        configuration.setAllowCredentials(true); // 쿠키, 세션 인증 정보 허용
-
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setExposedHeaders(List.of("Authorization")); // 액세스 토큰을 담은 헤더를 브라우저가 읽을 수 있도록 허용
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**"); // swagger api
     }
 }

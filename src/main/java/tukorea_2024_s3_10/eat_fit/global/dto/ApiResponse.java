@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter // Jackson 라이브러리에서 객체 -> json 직렬화에 필요
 public class ApiResponse<T> {
     private final String status;
-    private final T data;
     private final String message;
+    private final T data;
 
     private ApiResponse(String status, T data, String message) {
         this.status = status;
-        this.data = data;
         this.message = message;
+        this.data = data;
     }
 
     public static <T> ApiResponse<T> success(T data) {

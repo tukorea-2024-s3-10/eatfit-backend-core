@@ -26,12 +26,33 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("access");
 
-        if (accessToken == null) {
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/api/core/auth/reissue")) {
+            // 리프레시 토큰 API에서는 필터가 동작하지 않도록 하고 다음 필터로 진행
             filterChain.doFilter(request, response);
             return;
         }
+
+        String authorizationHeader = request.getHeader("Authorization");
+
+        System.out.println("동작 ㅇㅇ확인" + authorizationHeader);
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Unauthorized: Access token is missing or invalid.");
+            System.out.println("여기로 갔네.");
+            return;
+        }
+
+        String accessToken = authorizationHeader.substring(7);
+        if (accessToken.equals("null")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Unauthorized: Access token is missing or invalid.");
+            System.out.println("여기로 갔네.");
+            return;
+        }
+
 
         try {
             jwtUtil.isExpired(accessToken);
