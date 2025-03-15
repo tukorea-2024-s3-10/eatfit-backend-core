@@ -40,20 +40,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
 
-        String access = jwtUtil.createJwt("access", oAuthId, userId, role, 600000L);
         String refresh = jwtUtil.createJwt("refresh", oAuthId, userId, role, 86400000L);
 
         addRefreshEntity(oAuthId, refresh, 86400000L);
 
-        response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
+        response.addCookie(createCookie("refresh_token", refresh));
         response.setStatus(HttpStatus.OK.value());
 
         if (role.equals("ROLE_GUEST")) {
-            response.sendRedirect("http://localhost:3000/physical-info");
+            response.sendRedirect("http://localhost:3000/setup");
             return;
         }
-        response.sendRedirect("http://localhost:3000");
+
+        response.sendRedirect("http://localhost:3000/home");
     }
 
     private Cookie createCookie(String key, String value) {

@@ -3,13 +3,13 @@ package tukorea_2024_s3_10.eat_fit.infrastructure.user.Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
-import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserProfileRepository;
+import tukorea_2024_s3_10.eat_fit.domain.user.repository.BodyProfileRepository;
 
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class DbUserProfileRepository implements UserProfileRepository {
+public class DbUserProfileRepository implements BodyProfileRepository {
     final JpaUserProfileRepository userProfileRepository;
 
     @Override

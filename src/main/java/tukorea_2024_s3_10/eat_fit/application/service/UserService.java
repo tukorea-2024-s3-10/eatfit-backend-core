@@ -12,11 +12,11 @@ import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
-import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileInitRequest;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileSetupRequest;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepository;
-import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserProfileRepository;
+import tukorea_2024_s3_10.eat_fit.domain.user.repository.BodyProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -30,20 +30,19 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserIntakeGoalRepository userIntakeGoalRepository;
-    private final UserProfileRepository userProfileRepository;
+    private final BodyProfileRepository bodyProfileRepository;
     private final DietRecordRepository dietRecordRepository;
 
     @Transactional
-    public void initProfile(ProfileInitRequest profileInitRequest) {
+    public void initProfile(ProfileSetupRequest profileSetupRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
         User user = userRepository.findById(currentUserId).get();
 
         BodyProfile bodyProfile = BodyProfile.builder()
-                .age(profileInitRequest.getBirthYear())
-                .targetWeight(profileInitRequest.getTargetWeight())
-                .weight(profileInitRequest.getWeight())
-                .height(profileInitRequest.getHeight())
+                .targetWeight(profileSetupRequest.getTargetWeight())
+                .weight(profileSetupRequest.getWeight())
+                .height(profileSetupRequest.getHeight())
                 .build();
 
 
@@ -51,15 +50,15 @@ public class UserService {
         UserIntakeGoal userIntakeGoal = recommendUserGoal(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
 
-        userProfileRepository.save(bodyProfile);
-        user.changeRole(Role.ROLE_USER);
+        bodyProfileRepository.save(bodyProfile);
+        user.updateRole(Role.ROLE_USER);
         userRepository.save(user);
     }
 
     public ProfileResponse getProfile() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        BodyProfile bodyProfile = userProfileRepository.findById(currentUserId).get();
+        BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).get();
 
         return new ProfileResponse(bodyProfile);
 
@@ -69,7 +68,7 @@ public class UserService {
     public void editProfile(ProfileEditRequest profileEditRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        BodyProfile bodyProfile = userProfileRepository.findById(currentUserId).get();
+        BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).get();
 
         bodyProfile.setGender(profileEditRequest.getGender());
         bodyProfile.setHeight(profileEditRequest.getHeight());
@@ -80,7 +79,7 @@ public class UserService {
         UserIntakeGoal userIntakeGoal = recommendUserGoal(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
 
-        userProfileRepository.save(bodyProfile);
+        bodyProfileRepository.save(bodyProfile);
 
 
     }

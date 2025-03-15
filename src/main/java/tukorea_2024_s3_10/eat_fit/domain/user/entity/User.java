@@ -32,7 +32,15 @@ public class User {
     @CreationTimestamp
     private Timestamp createdAt; // 가입 시간
 
-    public void changeRole(Role role){
+    public void updateRole(Role role){
         this.role = role;
+    }
+
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
     }
 }
