@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    triggers {
+        pollSCM('*/3 * * * *')
+    }
+
     stages {
         stage('Get Project From GitHub') {
             steps {
