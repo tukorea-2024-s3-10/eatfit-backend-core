@@ -35,12 +35,10 @@ pipeline {
 
         stage('Build Docker Image') {
             withAWS(credentials: 'aws-credentials-id', region: "ap-northeast-2") {
-                steps {
-                    sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com'
-                    sh 'docker build -t eatfit .'
-                    sh 'docker tag eatfit:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
-                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
-                }
+                sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com'
+                sh 'docker build -t eatfit .'
+                sh 'docker tag eatfit:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
+                sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
             }
         }
     }
