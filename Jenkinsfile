@@ -15,9 +15,9 @@ pipeline {
 
         stage('Prepare application-sec.yaml') {
             steps {
-                withCredentials([file(credentialsId: 'application-sec.yaml', variable: 'application-sec.yaml')]) {
+                withCredentials([file(credentialsId: 'application-sec.yaml', variable: 'SEC_FILE')]) {
                     script {
-                        sh "cp ${application-sec.yaml} src/main/resources/application-sec.yaml"
+                        sh "cp ${SEC_FILE} src/main/resources/application-sec.yaml"
                     }
                 }
             }
