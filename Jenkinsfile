@@ -13,6 +13,16 @@ pipeline {
             }
         }
 
+        stage('Prepare application-sec.yaml') {
+            steps {
+                withCredentials([file(credentialsId: 'application-sec.yaml', variable: 'application-sec.yaml')]) {
+                    script {
+                        sh "cp ${application-sec.yaml} src/main/resources/application-sec.yaml"
+                    }
+                }
+            }
+        }
+
         stage('Build Project with Gradle') {
             steps {
                 sh './gradlew clean bootJar'
