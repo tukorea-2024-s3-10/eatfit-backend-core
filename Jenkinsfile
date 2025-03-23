@@ -6,6 +6,10 @@ pipeline {
         pollSCM('*/3 * * * *')
     }
 
+    environment {
+        AWS_REGION = 'ap-northeast-2'
+    }
+
     stages {
         stage('Get Project From GitHub') {
             steps {
@@ -26,6 +30,13 @@ pipeline {
         stage('Build Project with Gradle') {
             steps {
                 sh './gradlew clean bootJar'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t eatfit .'
+                sh 'docker tag eatfit:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
             }
         }
     }
