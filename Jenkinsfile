@@ -43,5 +43,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Update ECS Service') {
+            steps {
+                withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
+                    script {
+                        sh 'aws ecs update-service --cluster eatfit-ecs-cluster --service eatfit-core-esc-service --force-new-deployment'
+                    }
+                }
+            }
+        }
     }
 }
