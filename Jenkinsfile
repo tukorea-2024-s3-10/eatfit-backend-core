@@ -48,7 +48,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
                     script {
-                        sh 'aws ecs update-service --cluster eatfit-ecs-cluster --service eatfit-core-esc-service --force-new-deployment'
+                        sh 'aws ecs update-service --cluster eatfit-ecs-cluster --service eatfit-core-ecs-service --force-new-deployment'
                     }
                 }
             }
