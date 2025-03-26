@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EcsTestController {
-    @GetMapping("/ECS-TEST3")
+    @GetMapping("/ECS-TEST4")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok().build();
     }
