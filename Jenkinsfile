@@ -6,10 +6,6 @@ pipeline {
         pollSCM('*/3 * * * *')
     }
 
-    environment {
-        AWS_REGION = 'ap-northeast-2'
-    }
-
     stages {
         stage('Get Project From GitHub') {
             steps {
@@ -17,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Prepare application-sec.yaml') {
+        stage('프로젝트 Security 파일 주입') {
             steps {
                 withCredentials([file(credentialsId: 'application-sec.yaml', variable: 'SEC_FILE')]) {
                     script {
@@ -27,19 +23,27 @@ pipeline {
             }
         }
 
-        stage('Build Project with Gradle') {
+        stage('Spring Boot 프로젝트 빌드') {
             steps {
                 sh './gradlew clean bootJar'
             }
+            post {
+                failure {
+                    error "Spring Boot 프로젝트 빌드 실패"
+                }
+                success {
+                    echo "Spring Boot 프로젝트 빌드 성공"
+                }
+            }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker 빌드 후 ECR 업로드') {
             steps {
                 withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
                     sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com'
-                    sh 'docker build -t eatfit .'
-                    sh 'docker tag eatfit:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
-                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit:latest'
+                    sh 'docker build -t eatfit/backend-core .'
+                    sh 'docker tag eatfit/backend-core:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/backend-core:latest'
+                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/backend-core:latest'
                 }
             }
         }
