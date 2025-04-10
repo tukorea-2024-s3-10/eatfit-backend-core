@@ -41,9 +41,9 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
                     sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com'
-                    sh 'docker build -t eatfit/backend-core .'
-                    sh 'docker tag eatfit/backend-core:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/backend-core:latest'
-                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/backend-core:latest'
+                    sh 'docker build -t eatfit/core .'
+                    sh 'docker tag eatfit/core:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/core:latest'
+                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/core:latest'
                 }
             }
         }
@@ -52,7 +52,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
                     script {
-                        sh 'aws ecs update-service --cluster eatfit-cluster --service eatfit-backend-core-service --force-new-deployment'
+                        sh 'aws ecs update-service --cluster eatfit-cluster --service eatfit-core-service --force-new-deployment'
                     }
                 }
             }
