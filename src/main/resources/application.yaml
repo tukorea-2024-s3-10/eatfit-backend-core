@@ -1,10 +1,6 @@
 spring:
   application:
-    name: eat-fit
+    name: eatfit
 
   config:
     import: classpath:application-sec.yaml
-
-  jpa:
-    hibernate:
-      ddl-auto: update

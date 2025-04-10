@@ -5,6 +5,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtUtil jwtUtil;
     private final RefreshRepository refreshRepository;
 
+    @Value("${client_url}")
+    private String clientUrl;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
@@ -48,11 +52,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.setStatus(HttpStatus.OK.value());
 
         if (role.equals("ROLE_GUEST")) {
-            response.sendRedirect("http://localhost:3000/setup");
+            response.sendRedirect(clientUrl + "/profile/setup");
             return;
         }
 
-        response.sendRedirect("http://localhost:3000/home");
+        response.sendRedirect(clientUrl + "/dashboard");
     }
 
     private Cookie createCookie(String key, String value) {
