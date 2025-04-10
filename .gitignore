@@ -1,5 +1,6 @@
 # 보안 관련 파일 제외
 application-sec.yaml
+application-dev.yaml
 
 HELP.md
 .gradle
