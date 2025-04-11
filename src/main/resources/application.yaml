@@ -3,4 +3,4 @@ spring:
     name: eatfit
 
   config:
-    import: classpath:application-sec.yaml
+    import: classpath:application-dev.yaml
