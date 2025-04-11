@@ -20,7 +20,7 @@ public class ProfileResponse {
         this.birthYear = bodyProfile.getAge();
         this.height = bodyProfile.getHeight();
         this.weight = bodyProfile.getWeight();
-        this.goalCategory = bodyProfile.getTargetType();
+        this.goalCategory = bodyProfile.getGoalType();
         this.targetWeight = bodyProfile.getTargetWeight();
     }
 }
