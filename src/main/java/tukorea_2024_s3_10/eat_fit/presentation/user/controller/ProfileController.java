@@ -12,7 +12,6 @@ import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileSetupRequest;
 import tukorea_2024_s3_10.eat_fit.application.service.UserService;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/core/users/profile")

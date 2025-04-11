@@ -2,7 +2,7 @@ package tukorea_2024_s3_10.eat_fit.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 
 @Getter
 @Setter

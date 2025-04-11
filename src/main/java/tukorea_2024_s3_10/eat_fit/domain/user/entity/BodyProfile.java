@@ -24,7 +24,7 @@ public class BodyProfile {
     @Column(columnDefinition = "DECIMAL(4,1)")
     private double weight;
 
-    private String targetType; // 목표 타입
+    private String goalType; // 목표 타입
 
     @Column(columnDefinition = "DECIMAL(4,1)")
     private double targetWeight;

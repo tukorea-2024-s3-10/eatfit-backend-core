@@ -7,7 +7,7 @@ import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
-import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;

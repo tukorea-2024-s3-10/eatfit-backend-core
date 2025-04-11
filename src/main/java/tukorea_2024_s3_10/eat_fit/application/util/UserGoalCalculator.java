@@ -1,24 +1,17 @@
 package tukorea_2024_s3_10.eat_fit.application.util;
 
-import tukorea_2024_s3_10.eat_fit.domain.user.UserIntakeGoal;
+import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 
 public class UserGoalCalculator {
 
     public static UserIntakeGoal recommendUserGoal(BodyProfile bodyProfile){
-        String goal = bodyProfile.getTargetType();
         UserIntakeGoal userIntakeGoal;
 
-        /**
-         * 회원가입 키, 몸무게, 목표, 서비스
-         * 메인 페이지 UserGoal < 조회 결과를 계속
-         * 프로필 설정 몸무게 변경 -> 저장을 눌러 목표를 변경하고 저장을 눌러 -> 백엔드에서 UserGoal 내용을 계산해서 db 업데이트
-         *
-         */
-        switch(goal){
+        switch(bodyProfile.getGoalType()){
             case "다이어트" -> userIntakeGoal = diet(bodyProfile);
-            case "운동" -> userIntakeGoal = exercise(bodyProfile);
-            case "건강" -> userIntakeGoal = health(bodyProfile);
+            case "일반" -> userIntakeGoal = exercise(bodyProfile);
+            case "헬스" -> userIntakeGoal = health(bodyProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
@@ -80,24 +73,20 @@ public class UserGoalCalculator {
     }
 
     private static UserIntakeGoal health(BodyProfile bodyProfile){
-        double standardWeight = calculateStandardWeight(bodyProfile);
-        int goalKcal;
 
-        goalKcal = (int)(standardWeight*30);
+        int goalKcal = (int)(bodyProfile.getHeight()*30);
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
                 .calorieGoal(goalKcal)
                 .sodiumGoal(2000)
                 .carbohydrateGoal((goalKcal*0.15))
                 .sugarGoal(goalKcal*0.015)
-                .fatGoal((goalKcal-(goalKcal*0.6)-(standardWeight*4))/9)
+                .fatGoal((goalKcal-(goalKcal*0.6)-(bodyProfile.getHeight()*4))/9)
                 .transFatGoal(goalKcal*0.01/9)
                 .saturatedFatGoal(goalKcal*0.08/9)
                 .cholesterolGoal(300)
-                .proteinGoal(standardWeight)
+                .proteinGoal(bodyProfile.getHeight())
                 .build();
-
-
 
         return userIntakeGoal;
     }

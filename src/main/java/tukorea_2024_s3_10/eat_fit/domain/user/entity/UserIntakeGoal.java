@@ -1,11 +1,10 @@
-package tukorea_2024_s3_10.eat_fit.domain.user;
+package tukorea_2024_s3_10.eat_fit.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 
 @Entity
 @Builder
