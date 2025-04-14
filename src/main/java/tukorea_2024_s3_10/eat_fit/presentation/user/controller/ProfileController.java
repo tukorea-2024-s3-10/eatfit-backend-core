@@ -28,11 +28,13 @@ public class ProfileController {
     }
 
     @GetMapping
+    @Operation(summary = "유저 프로필 조회", description = "유저의 프로필 정보를 조회")
     public ResponseEntity<ApiResponse<ProfileResponse>> getUserProfile() {
         return ResponseEntity.ok(ApiResponse.success(userService.getProfile()));
     }
 
     @PatchMapping
+    @Operation(summary = "유저 프로필 수정", description = "유저의 프로필 정보를 수정")
     public ResponseEntity<ApiResponse<Void>> editProfile(@RequestBody ProfileEditRequest profileEditRequest) {
         userService.editProfile(profileEditRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
