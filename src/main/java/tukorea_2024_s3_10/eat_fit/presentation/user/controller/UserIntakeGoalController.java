@@ -17,7 +17,7 @@ public class UserIntakeGoalController {
     private final UserService userService;
 
     @GetMapping
-    @Operation(summary = "사용자 목표 섭취량 설정", description = "사용자의 목표 섭취량을 계산하여 설정")
+    @Operation(summary = "사용자 목표 섭취량 조회", description = "사용자의 목표 섭취을 조회")
     public ResponseEntity<ApiResponse<IntakeGoalResponse>> getUserIntakeGoal(){
         return ResponseEntity.ok(ApiResponse.success(userService.getIntakeGoal()));
     }
