@@ -17,8 +17,7 @@ public class WeightRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private Long userId;
 
     private double weight;
     private LocalDate date;
