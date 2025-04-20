@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins("http://localhost:3000", "https://eatfit.site);
+        configuration.setAllowedOrigins("http://localhost:3000", "https://eatfit.site");
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setExposedHeaders(List.of("Authorization")); // 액세스 토큰을 담은 헤더를 브라우저가 읽을 수 있도록 허용
