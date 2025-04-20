@@ -26,7 +26,7 @@ public class DietRecordController {
     }
 
     @GetMapping
-    @Operation(summary = "식단 기록 조회", description = "사용자의 체중 기록 조회(유저의 모든 식단기록 반환)")
+    @Operation(summary = "식단 기록 조회", description = "사용자의 식단 기록 조회(유저의 모든 식단 기록 반환)")
     public ResponseEntity<ApiResponse<List<DietRecordResponse>>> getDietRecord(@RequestParam Long dietId) {
         List<DietRecordResponse> dietRecordResponses = dietRecordService.getDietRecord();
         return ResponseEntity.ok(ApiResponse.success(dietRecordResponses));
