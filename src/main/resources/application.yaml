@@ -1,6 +1,5 @@
 spring:
   application:
     name: eatfit
-
-  config:
-    import: classpath:application-sec.yaml
+  profiles:
+    active: prod
