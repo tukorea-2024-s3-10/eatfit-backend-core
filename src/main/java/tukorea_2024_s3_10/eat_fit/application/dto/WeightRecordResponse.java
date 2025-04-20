@@ -16,7 +16,7 @@ public class WeightRecordResponse {
    public WeightRecordResponse(WeightRecord weightRecord) {
         weight = weightRecord.getWeight();
         date = weightRecord.getDate();
-        userId = weightRecord.getUserId();
+        userId = weightRecord.getId();
     }
 
 }
