@@ -22,6 +22,7 @@ public class DietRecordResponse {
     private double transFat; // g
     private int sodiumGoal; // mg
     private int cholesterol; // mg
+    private Long id;
 
     public DietRecordResponse(DietRecord dietRecord) {
         this.date = dietRecord.getDate();
@@ -37,5 +38,6 @@ public class DietRecordResponse {
         this.transFat = dietRecord.getTransFat();
         this.sodiumGoal = dietRecord.getSodiumGoal();
         this.cholesterol = dietRecord.getCholesterol();
+        this.id = dietRecord.getId();
     }
 }

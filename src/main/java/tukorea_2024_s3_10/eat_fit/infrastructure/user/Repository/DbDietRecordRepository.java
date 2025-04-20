@@ -28,4 +28,7 @@ public class DbDietRecordRepository implements DietRecordRepository {
     public Optional<DietRecord> findById(long id){
         return dietRecordRepository.findById(id);
     }
+
+    @Override
+    public List<DietRecord> findByUserId(long userId){ return dietRecordRepository.findByUserId(userId); }
 }

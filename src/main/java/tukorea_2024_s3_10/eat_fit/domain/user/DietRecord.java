@@ -19,8 +19,7 @@ public class DietRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private Long userId;
 
     private LocalDate date; // 날짜
     private String mealType; // 식사 유형 (아침, 점심, 간식 등)

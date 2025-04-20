@@ -10,4 +10,5 @@ public interface DietRecordRepository{
     DietRecord save(DietRecord dietRecord);
     List<DietRecord> findByUserIdAndDate(long userId, LocalDate date);
     Optional<DietRecord> findById(long id);
+    List<DietRecord> findByUserId(long userId);
 }
