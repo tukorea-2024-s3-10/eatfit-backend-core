@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface JpaDietRecordRepository extends JpaRepository<DietRecord, Long> {
     List<DietRecord> findByUserIdAndDate(long userId, LocalDate date);
+    List<DietRecord> findByUserId(long userId);
 }

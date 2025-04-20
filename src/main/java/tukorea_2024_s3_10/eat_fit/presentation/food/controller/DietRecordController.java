@@ -9,6 +9,8 @@ import tukorea_2024_s3_10.eat_fit.application.service.DietRecordService;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.food.dto.DietRecordRequest;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/core/dietrecord")
@@ -24,10 +26,10 @@ public class DietRecordController {
     }
 
     @GetMapping
-    @Operation(summary = "식단 기록 조회", description = "사용자의 체중 기록 조회(식단 기록의 id로 조회 사용자 id아님)")
-    public ResponseEntity<ApiResponse<DietRecordResponse>> getDietRecord(@RequestParam Long dietId) {
-        DietRecordResponse dietRecordResponse = dietRecordService.getDietRecord(dietId);
-        return ResponseEntity.ok(ApiResponse.success(dietRecordResponse));
+    @Operation(summary = "식단 기록 조회", description = "사용자의 체중 기록 조회(유저의 모든 식단기록 반환)")
+    public ResponseEntity<ApiResponse<List<DietRecordResponse>>> getDietRecord(@RequestParam Long dietId) {
+        List<DietRecordResponse> dietRecordResponses = dietRecordService.getDietRecord();
+        return ResponseEntity.ok(ApiResponse.success(dietRecordResponses));
     }
 
 }

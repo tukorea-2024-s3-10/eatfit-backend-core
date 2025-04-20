@@ -4,12 +4,16 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.application.dto.DietRecordResponse;
+import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.food.dto.DietRecordRequest;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +25,8 @@ public class DietRecordService {
     public void recordDiet(DietRecordRequest dietRecordRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        User user =userRepository.findById(currentUserId).get();
-
         DietRecord dietRecord = DietRecord.builder()
-                .user(user)
+                .userId(currentUserId)
                 .date(dietRecordRequest.getDate())
                 .mealType(dietRecordRequest.getMealType())
                 .foodName(dietRecordRequest.getFoodName())
@@ -43,9 +45,10 @@ public class DietRecordService {
         dietRecordRepository.save(dietRecord);
     }
 
-    public DietRecordResponse getDietRecord(Long Id){
-        DietRecord dietRecord = dietRecordRepository.findById(Id).get();
-        return new DietRecordResponse(dietRecord);
+    public List<DietRecordResponse> getDietRecord(){
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        List<DietRecord> dietRecords = dietRecordRepository.findByUserId(currentUserId);
+        return dietRecords.stream().map(DietRecordResponse::new).collect(Collectors.toList());
     }
 
 
