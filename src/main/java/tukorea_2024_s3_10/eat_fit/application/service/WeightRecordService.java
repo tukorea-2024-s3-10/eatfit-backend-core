@@ -3,6 +3,7 @@ package tukorea_2024_s3_10.eat_fit.application.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tukorea_2024_s3_10.eat_fit.application.dto.FoodResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.WeightRecord;
@@ -12,6 +13,9 @@ import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.WeightRecordEditRequest;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class WeightRecordService {
@@ -19,12 +23,10 @@ public class WeightRecordService {
     private final UserRepository userRepository;
 
     public void recordWeight(WeightRecordRequest weightRecordRequest) {
-        Long currentUserId = SecurityUtil.getCurrentUserId();
-
-        User user =userRepository.findById(currentUserId).get();
+        Long userId = SecurityUtil.getCurrentUserId();
 
         WeightRecord weightRecord = WeightRecord.builder()
-                .user(user)
+                .userId(userId)
                 .weight(weightRecordRequest.getWeight())
                 .date(weightRecordRequest.getDate())
                 .build();
@@ -38,10 +40,8 @@ public class WeightRecordService {
 
         WeightRecord weightRecord = weightRecordRepository.findById(weightRecordEditRequest.getId()).get();
 
-        User user =userRepository.findById(currentUserId).get();
-
         // 예외 처리 필요
-        if(!weightRecord.getUser().getId().equals(user.getId())) {
+        if(!weightRecord.getUserId().equals(currentUserId)) {
             return;
         }
 
@@ -51,10 +51,11 @@ public class WeightRecordService {
 
     }
 
-    public WeightRecordResponse getWeightRecord(Long id){
-        WeightRecord weightRecord = weightRecordRepository.findById(id).get();
+    public List<WeightRecordResponse> getWeightRecord(){
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        List<WeightRecord> weightRecords = weightRecordRepository.findByUserId(currentUserId);
 
-        return new WeightRecordResponse(weightRecord);
+        return weightRecords.stream().map(WeightRecordResponse::new).collect(Collectors.toList());
     }
 
 }
