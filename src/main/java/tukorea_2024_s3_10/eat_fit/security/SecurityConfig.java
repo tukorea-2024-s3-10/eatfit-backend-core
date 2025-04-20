@@ -27,7 +27,7 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+//test
     @Value("${client_url}")
     private String clientUrl;
 
