@@ -55,33 +55,10 @@ public class AuthController {
         String oAuthId = jwtUtil.getOAuthId(refreshToken);
         String role = jwtUtil.getRole(refreshToken);
 
-        String newAccessToken = jwtUtil.createJwt("access", oAuthId, userId, role, 600000L);
+        String newAccessToken = jwtUtil.createJwt("access", oAuthId, userId, role, 6000000L);
 
         response.setHeader("Authorization", "Bearer " + newAccessToken);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
-    }
-
-    private Cookie createCookie(String key, String value) {
-
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
-        //cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-
-        return cookie;
-    }
-
-    private void addRefreshEntity(String oAuthId, String refresh, Long expiredMs) {
-
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setOauthId(oAuthId);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
-
-        refreshRepository.save(refreshEntity);
     }
 }

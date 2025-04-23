@@ -27,7 +27,7 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-//test
+    //test
     @Value("${client_url}")
     private String clientUrl;
 
@@ -79,6 +79,6 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/health"); // swagger api
+                .requestMatchers("/health", "/swagger-ui/**", "/v3/api-docs/**"); // swagger api
     }
 }
