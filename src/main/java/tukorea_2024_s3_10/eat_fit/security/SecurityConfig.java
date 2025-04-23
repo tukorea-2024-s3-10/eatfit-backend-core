@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.handler.CustomSuccessHandler;
+import tukorea_2024_s3_10.eat_fit.security.handler.CustomOAuth2SuccessHandler;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtFilter;
 import tukorea_2024_s3_10.eat_fit.application.service.CustomOAuth2UserService;
 
@@ -32,7 +32,7 @@ public class SecurityConfig {
     private String clientUrl;
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomSuccessHandler customSuccessHandler;
+    private final CustomOAuth2SuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
     private final RefreshRepository refreshRepository;
 

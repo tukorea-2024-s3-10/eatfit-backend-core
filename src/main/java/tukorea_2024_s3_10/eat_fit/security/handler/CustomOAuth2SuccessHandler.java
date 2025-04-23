@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.infrastructure.security.handler;
+package tukorea_2024_s3_10.eat_fit.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import tukorea_2024_s3_10.eat_fit.domain.RefreshEntity;
@@ -23,7 +24,7 @@ import java.util.Iterator;
 
 @Component
 @RequiredArgsConstructor
-public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
     private final RefreshRepository refreshRepository;

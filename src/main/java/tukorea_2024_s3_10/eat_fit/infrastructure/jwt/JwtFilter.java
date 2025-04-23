@@ -85,7 +85,6 @@ public class JwtFilter extends OncePerRequestFilter {
         String oAuthId = jwtUtil.getOAuthId(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
-        addRefreshEntity(oAuthId, role, userId);
         //UserDetails에 회원 정보 객체 담기
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(userId, oAuthId, role);
         //스프링 시큐리티 인증 토큰 생성
@@ -93,17 +92,5 @@ public class JwtFilter extends OncePerRequestFilter {
         //세션에 사용자 등록
         SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
-    }
-
-    private void addRefreshEntity(String oAuthId, String refresh, Long expiredMs) {
-
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setOauthId(oAuthId);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
-
-        refreshRepository.save(refreshEntity);
     }
 }
