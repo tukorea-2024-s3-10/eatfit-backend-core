@@ -11,9 +11,9 @@ pipeline {
 
         stage('프로젝트 Security 파일 주입') {
             steps {
-                withCredentials([file(credentialsId: 'application-sec.yaml', variable: 'SEC_FILE')]) {
+                withCredentials([file(credentialsId: 'application-prod.yaml', variable: 'SEC_FILE')]) {
                     script {
-                        sh "cp ${SEC_FILE} src/main/resources/application-sec.yaml"
+                        sh "cp ${SEC_FILE} src/main/resources/application-prod.yaml"
                     }
                 }
             }
