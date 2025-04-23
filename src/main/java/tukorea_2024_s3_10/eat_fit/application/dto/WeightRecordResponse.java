@@ -11,12 +11,12 @@ import java.time.LocalDate;
 public class WeightRecordResponse {
     private double weight;
     private LocalDate date;
-    private Long userId;
+    private Long id;
 
    public WeightRecordResponse(WeightRecord weightRecord) {
         weight = weightRecord.getWeight();
         date = weightRecord.getDate();
-        userId = weightRecord.getId();
+        id = weightRecord.getId();
     }
 
 }
