@@ -66,7 +66,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         //cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setDomain(".eatfit.site");
+        cookie.setDomain("eatfit.site");
 
         return cookie;
     }
