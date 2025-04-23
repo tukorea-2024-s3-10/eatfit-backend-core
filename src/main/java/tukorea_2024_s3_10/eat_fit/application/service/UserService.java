@@ -18,6 +18,7 @@ import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.BodyProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.UserIntakeGoalRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -87,9 +88,47 @@ public class UserService {
     public IntakeGoalResponse getIntakeGoal() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findById(currentUserId).get();
+        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findByUserId(currentUserId).get();
 
         return new IntakeGoalResponse(userIntakeGoal);
+    }
+
+    @Transactional
+    public void editIntakeGoal(UserIntakeGoalRequest userIntakeGoalRequest) {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+
+        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findByUserId(currentUserId).get();
+
+        if(userIntakeGoalRequest.getCalorieGoal() != 0 && userIntakeGoalRequest.getCalorieGoal() != userIntakeGoal.getCalorieGoal()){
+            userIntakeGoal.setCalorieGoal(userIntakeGoalRequest.getCalorieGoal());
+        }
+        if(userIntakeGoalRequest.getSodiumGoal() != 0 && userIntakeGoalRequest.getSodiumGoal() != userIntakeGoal.getSodiumGoal()){
+            userIntakeGoal.setSodiumGoal(userIntakeGoalRequest.getSodiumGoal());
+        }
+        if(userIntakeGoalRequest.getCarbohydrateGoal() != 0 && userIntakeGoalRequest.getCarbohydrateGoal() != userIntakeGoal.getCarbohydrateGoal()){
+            userIntakeGoal.setCarbohydrateGoal(userIntakeGoalRequest.getCarbohydrateGoal());
+        }
+        if(userIntakeGoalRequest.getSugarGoal() != 0 && userIntakeGoalRequest.getSugarGoal() != userIntakeGoal.getSugarGoal()){
+            userIntakeGoal.setSugarGoal(userIntakeGoalRequest.getSugarGoal());
+        }
+        if(userIntakeGoalRequest.getFatGoal() != 0 && userIntakeGoalRequest.getFatGoal() != userIntakeGoal.getFatGoal()){
+            userIntakeGoal.setFatGoal(userIntakeGoalRequest.getFatGoal());
+        }
+        if(userIntakeGoalRequest.getTransFatGoal() != 0 && userIntakeGoalRequest.getTransFatGoal() != userIntakeGoal.getTransFatGoal()){
+            userIntakeGoal.setTransFatGoal(userIntakeGoalRequest.getTransFatGoal());
+        }
+        if(userIntakeGoalRequest.getSaturatedFatGoal() != 0 && userIntakeGoalRequest.getSaturatedFatGoal() != userIntakeGoal.getSaturatedFatGoal()){
+            userIntakeGoal.setSaturatedFatGoal(userIntakeGoalRequest.getSaturatedFatGoal());
+        }
+        if(userIntakeGoalRequest.getProteinGoal() != 0 && userIntakeGoalRequest.getProteinGoal() != userIntakeGoal.getProteinGoal()){
+            userIntakeGoal.setProteinGoal(userIntakeGoalRequest.getProteinGoal());
+        }
+        if(userIntakeGoalRequest.getCholesterolGoal() != 0 && userIntakeGoalRequest.getCholesterolGoal() != userIntakeGoal.getCholesterolGoal()){
+            userIntakeGoal.setCholesterolGoal(userIntakeGoalRequest.getCholesterolGoal());
+        }
+
+        userIntakeGoalRepository.save(userIntakeGoal);
+
     }
 
     public TodayIntakeResponse calculateTodayIntake() {
