@@ -1,19 +1,9 @@
-package tukorea_2024_s3_10.eat_fit.domain.user.entity;
+package tukorea_2024_s3_10.eat_fit.presentation.user.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
 
-@Entity
-@Builder
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserIntakeGoal {
-
-    @Id
-    private Long userId;             // 사용자별 권장 섭취량 계산
-
+public class UserIntakeGoalRequest {
     private int calorieGoal;       // 칼로리
     private int sodiumGoal;        // 나트륨
     private double carbohydrateGoal;  // 탄수화물

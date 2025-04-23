@@ -18,7 +18,7 @@ public class DbUserIntakeGoalRepository implements UserIntakeGoalRepository {
     }
 
     @Override
-    public Optional<UserIntakeGoal> findById(Long id){
-        return userIntakeGoalRepository.findById(id);
+    public Optional<UserIntakeGoal> findByUserId(Long userId){
+        return userIntakeGoalRepository.findByUserId(userId);
     }
 }
