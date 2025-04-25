@@ -41,7 +41,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable) // Form Login 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterAfter(new JwtFilter(jwtUtil, refreshRepository), OAuth2LoginAuthenticationFilter.class)
                 .oauth2Login((oauth2) -> oauth2

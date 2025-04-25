@@ -11,6 +11,8 @@ import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.dto.*;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -21,25 +23,33 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        // OAuth2 제공자 + "_" + 제공자 식별 ID를 조합하여 우리 서비스의 고유 사용자 ID 생성
-        // 예시: "naver_123456789a", "kakao_987654321b"
-        String oAuthId = getOAuthId(userRequest, oAuth2User);
+        // OAuth2 제공자 + OAuth2 식별 ID 값으로 우리 서비스 내에서 가입 체크
+        // ex) naver_12345678a
+        String oAuthId = generateOAuthId(userRequest, oAuth2User);
 
-        User user = findOrCreateUserByOAuthId(oAuthId);
+        // 위 생성된 oAuthId 값으로 기존에 가입된 사용자라면 해당 사용자 반환, 새로운 사용자라면 DB 추가 후 사용자 반환
+        User user = findOrCreateUser(oAuthId);
+
         return new CustomOAuth2User(user.getId(), user.getOauthId(), user.getRole().name());
     }
 
-    private String getOAuthId(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Response oAuth2Response = switch (registrationId) {
-            case "naver" -> new NaverResponse(oAuth2User.getAttributes());
-            case "kakao" -> new KakaoResponse(oAuth2User.getAttributes());
-            default -> throw new IllegalArgumentException("Unsupported provider: " + registrationId);
+    private String generateOAuthId(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+
+        return switch (provider) {
+            case "kakao" -> "kakao_" + oAuth2User.getAttributes().get("id").toString();
+            case "naver" -> {
+                Object response = oAuth2User.getAttributes().get("response");
+                if (response instanceof Map<?, ?> attributes) {
+                    yield "naver_" + attributes.get("id").toString();
+                }
+                yield null;
+            }
+            default -> null;
         };
-        return oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();
     }
 
-    private User findOrCreateUserByOAuthId(String oAuthId) {
+    private User findOrCreateUser(String oAuthId) {
         return userRepository.findByOauthId(oAuthId)
                 .orElseGet(() -> {
                     User newUser = User.builder()
