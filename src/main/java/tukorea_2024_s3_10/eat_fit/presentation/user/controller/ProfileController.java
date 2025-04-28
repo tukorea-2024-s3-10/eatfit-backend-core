@@ -22,7 +22,7 @@ public class ProfileController {
 
     @PostMapping
     @Operation(summary = "가입 후 최초 프로필 설정", description = "서비스 가입 후 최초에 서비스 이용을 위한 초기 프로필 설정(신체 정보 및 목표 설정)")
-    public ResponseEntity<ApiResponse<Void>> setupProfile(ProfileSetupRequest profileSetupRequest) {
+    public ResponseEntity<ApiResponse<Void>> setupProfile(@RequestBody ProfileSetupRequest profileSetupRequest) {
         profileService.setupProfile(profileSetupRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
