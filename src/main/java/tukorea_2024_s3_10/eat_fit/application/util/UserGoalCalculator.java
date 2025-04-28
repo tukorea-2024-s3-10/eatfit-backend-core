@@ -11,8 +11,8 @@ public class UserGoalCalculator {
 
         switch(bodyProfile.getGoalType()){
             case "다이어트" -> userIntakeGoal = diet(bodyProfile);
-            case "일반" -> userIntakeGoal = exercise(bodyProfile);
-            case "헬스" -> userIntakeGoal = health(bodyProfile);
+            case "헬스" -> userIntakeGoal = exercise(bodyProfile);
+            case "일반" -> userIntakeGoal = health(bodyProfile);
             default -> throw new IllegalArgumentException("알 수 없는 목표");
         }
 
