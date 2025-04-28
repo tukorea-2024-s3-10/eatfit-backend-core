@@ -2,6 +2,7 @@ package tukorea_2024_s3_10.eat_fit.application.util;
 
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
+import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 
 public class UserGoalCalculator {
 
@@ -21,6 +22,7 @@ public class UserGoalCalculator {
     private static UserIntakeGoal diet(BodyProfile bodyProfile){
         double standardWeight = calculateStandardWeight(bodyProfile);
         int goalKcal;
+        Long currentUserId = SecurityUtil.getCurrentUserId();
 
         if(standardWeight > bodyProfile.getWeight()){
             goalKcal = (int)(bodyProfile.getWeight()*25);
@@ -30,6 +32,7 @@ public class UserGoalCalculator {
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
+                .userId(currentUserId)
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -49,6 +52,7 @@ public class UserGoalCalculator {
     private static UserIntakeGoal exercise(BodyProfile bodyProfile){
         double standardWeight = calculateStandardWeight(bodyProfile);
         int goalKcal;
+        Long currentUserId = SecurityUtil.getCurrentUserId();
 
         if(standardWeight > bodyProfile.getWeight()){
             goalKcal = (int)(bodyProfile.getWeight()*35);
@@ -58,6 +62,7 @@ public class UserGoalCalculator {
 
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
+                .userId(currentUserId)
                 .calorieGoal(goalKcal)
                 .sodiumGoal(1)
                 .carbohydrateGoal(1)
@@ -73,10 +78,11 @@ public class UserGoalCalculator {
     }
 
     private static UserIntakeGoal health(BodyProfile bodyProfile){
-
+        Long currentUserId = SecurityUtil.getCurrentUserId();
         int goalKcal = (int)(bodyProfile.getHeight()*30);
 
         UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
+                .userId(currentUserId)
                 .calorieGoal(goalKcal)
                 .sodiumGoal(2000)
                 .carbohydrateGoal((goalKcal*0.15))
