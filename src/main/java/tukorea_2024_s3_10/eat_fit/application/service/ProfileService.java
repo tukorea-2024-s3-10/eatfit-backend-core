@@ -51,6 +51,14 @@ public class ProfileService {
             userDiseaseRepository.save(userDisease);
         }
 
+        System.out.println(bodyProfile.getUserId());
+        System.out.println(bodyProfile.getGender());
+        System.out.println(bodyProfile.getAge());
+        System.out.println(bodyProfile.getHeight());
+        System.out.println(bodyProfile.getWeight());
+        System.out.println(bodyProfile.getGoalType());
+        System.out.println(bodyProfile.getTargetWeight());
+
         UserIntakeGoal userIntakeGoal = UserGoalCalculator.recommendUserGoal(bodyProfile);
 
         userRepository.save(user);
