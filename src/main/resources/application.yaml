@@ -2,4 +2,4 @@ spring:
   application:
     name: eatfit
   profiles:
-    active: prod
+    active: dev

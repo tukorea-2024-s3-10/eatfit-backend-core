@@ -26,6 +26,18 @@ public class ProfileService {
     @Transactional
     public void setupProfile(ProfileSetupRequest profileSetupRequest) {
 
+        System.out.println(profileSetupRequest.getNickname());
+        System.out.println(profileSetupRequest.getGender());
+        System.out.println(profileSetupRequest.getAge());
+        System.out.println(profileSetupRequest.getHeight());
+        System.out.println(profileSetupRequest.getWeight());
+        System.out.println(profileSetupRequest.getGoalType());
+        System.out.println(profileSetupRequest.getTargetWeight());
+        for (String disease :  profileSetupRequest.getDiseases()) {
+            System.out.println(disease);
+        }
+
+
         // 현재 로그인 중인 사용자의 식별자를 불러옴
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
