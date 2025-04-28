@@ -1,15 +1,14 @@
 package tukorea_2024_s3_10.eat_fit.presentation.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProfileSetupRequest {
@@ -20,6 +19,7 @@ public class ProfileSetupRequest {
     private double height; // 키
     private double weight; // 몸무게
     private String goalType; // 목표 종류
-    private List<String> diseases; // 질병
+    @Builder.Default
+    private List<String> diseases = new ArrayList<>(); // 질병
     private double targetWeight; // 목표 몸무게
 }
