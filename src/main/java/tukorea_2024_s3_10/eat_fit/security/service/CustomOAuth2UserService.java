@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.application.service;
+package tukorea_2024_s3_10.eat_fit.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

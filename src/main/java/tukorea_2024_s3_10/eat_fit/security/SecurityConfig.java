@@ -18,7 +18,7 @@ import tukorea_2024_s3_10.eat_fit.domain.RefreshRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
 import tukorea_2024_s3_10.eat_fit.security.handler.CustomOAuth2SuccessHandler;
 import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtFilter;
-import tukorea_2024_s3_10.eat_fit.application.service.CustomOAuth2UserService;
+import tukorea_2024_s3_10.eat_fit.security.service.CustomOAuth2UserService;
 
 import java.util.Collections;
 import java.util.List;

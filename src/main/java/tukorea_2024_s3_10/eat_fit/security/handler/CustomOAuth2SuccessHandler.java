@@ -35,15 +35,11 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-        Long userId = customUserDetails.getUserId();
-        String oAuthId = customUserDetails.getName();
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-        String role = auth.getAuthority();
+        Long userId = oAuth2User.getUserId();
+        String oAuthId = oAuth2User.getOAuthId();
+        String role = oAuth2User.getRole();
 
         String refresh = jwtUtil.createJwt("refresh", oAuthId, userId, role, 86400000L);
 

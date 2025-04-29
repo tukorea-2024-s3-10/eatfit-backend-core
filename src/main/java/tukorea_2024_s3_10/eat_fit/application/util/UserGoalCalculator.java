@@ -6,111 +6,58 @@ import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 
 public class UserGoalCalculator {
 
-    public static UserIntakeGoal recommendUserGoal(BodyProfile bodyProfile){
-        UserIntakeGoal userIntakeGoal;
+    public static UserIntakeGoal recommendUserGoal(BodyProfile bodyProfile) {
 
-        switch(bodyProfile.getGoalType()){
-            case "다이어트" -> userIntakeGoal = diet(bodyProfile);
-            case "헬스" -> userIntakeGoal = exercise(bodyProfile);
-            case "일반" -> userIntakeGoal = health(bodyProfile);
-            default -> throw new IllegalArgumentException("알 수 없는 목표");
-        }
-
-        return userIntakeGoal;
-    }
-
-    private static UserIntakeGoal diet(BodyProfile bodyProfile){
-        double standardWeight = calculateStandardWeight(bodyProfile);
-        int goalKcal;
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        if(standardWeight > bodyProfile.getWeight()){
-            goalKcal = (int)(bodyProfile.getWeight()*25);
-        }else{
-            goalKcal = (int)(standardWeight*25);
+        int goalKcal = (int) bodyProfile.getWeight() * 30;
+
+        if(bodyProfile.getTargetWeight() > bodyProfile.getWeight()) {
+            goalKcal = goalKcal * 11 / 10;
+            return UserIntakeGoal.builder()
+                    .userId(currentUserId)
+                    .calorieGoal(goalKcal)
+                    .sodiumGoal(2000)
+                    .carbohydrateGoal((goalKcal * 0.15))
+                    .sugarGoal(goalKcal * 0.015)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .transFatGoal(goalKcal * 0.01 / 9)
+                    .saturatedFatGoal(goalKcal * 0.08 / 9)
+                    .cholesterolGoal(300)
+                    .proteinGoal(bodyProfile.getHeight())
+                    .build();
         }
-
-
-        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .userId(currentUserId)
-                .calorieGoal(goalKcal)
-                .sodiumGoal(1)
-                .carbohydrateGoal(1)
-                .sugarGoal(1)
-                .fatGoal(1)
-                .transFatGoal(1)
-                .saturatedFatGoal(1)
-                .cholesterolGoal(1)
-                .proteinGoal(1)
-                .build();
-
-
-        return userIntakeGoal;
-
-    }
-
-    private static UserIntakeGoal exercise(BodyProfile bodyProfile){
-        double standardWeight = calculateStandardWeight(bodyProfile);
-        int goalKcal;
-        Long currentUserId = SecurityUtil.getCurrentUserId();
-
-        if(standardWeight > bodyProfile.getWeight()){
-            goalKcal = (int)(bodyProfile.getWeight()*35);
-        }else{
-            goalKcal = (int)(bodyProfile.getWeight()*40);
+        else if(bodyProfile.getTargetWeight() < bodyProfile.getWeight()) {
+            goalKcal = goalKcal * 9 / 10;
+            return UserIntakeGoal.builder()
+                    .userId(currentUserId)
+                    .calorieGoal(goalKcal)
+                    .sodiumGoal(2000)
+                    .carbohydrateGoal((goalKcal * 0.15))
+                    .sugarGoal(goalKcal * 0.015)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .transFatGoal(goalKcal * 0.01 / 9)
+                    .saturatedFatGoal(goalKcal * 0.08 / 9)
+                    .cholesterolGoal(300)
+                    .proteinGoal(bodyProfile.getHeight())
+                    .build();
         }
-
-
-        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .userId(currentUserId)
-                .calorieGoal(goalKcal)
-                .sodiumGoal(1)
-                .carbohydrateGoal(1)
-                .sugarGoal(1)
-                .fatGoal(1)
-                .transFatGoal(1)
-                .saturatedFatGoal(1)
-                .cholesterolGoal(1)
-                .proteinGoal(1)
-                .build();
-
-        return userIntakeGoal;
-    }
-
-    private static UserIntakeGoal health(BodyProfile bodyProfile){
-        Long currentUserId = SecurityUtil.getCurrentUserId();
-        int goalKcal = (int)(bodyProfile.getHeight()*30);
-
-        UserIntakeGoal userIntakeGoal = UserIntakeGoal.builder()
-                .userId(currentUserId)
-                .calorieGoal(goalKcal)
-                .sodiumGoal(2000)
-                .carbohydrateGoal((goalKcal*0.15))
-                .sugarGoal(goalKcal*0.015)
-                .fatGoal((goalKcal-(goalKcal*0.6)-(bodyProfile.getHeight()*4))/9)
-                .transFatGoal(goalKcal*0.01/9)
-                .saturatedFatGoal(goalKcal*0.08/9)
-                .cholesterolGoal(300)
-                .proteinGoal(bodyProfile.getHeight())
-                .build();
-
-        return userIntakeGoal;
-    }
-
-    private static double square(double x){
-        return x * x;
-    }
-
-    private static double calculateStandardWeight(BodyProfile bodyProfile){
-        // 표준 체중 계산: 키(m)^2*22 or 21(여성)
-        if(bodyProfile.getGender().equals("남성")){
-            return square(bodyProfile.getHeight() / 100.0) * 22;
-        }else {
-            return square(bodyProfile.getHeight() / 100.0) * 21;
+        else {
+            return UserIntakeGoal.builder()
+                    .userId(currentUserId)
+                    .calorieGoal(goalKcal)
+                    .sodiumGoal(2000)
+                    .carbohydrateGoal((goalKcal * 0.15))
+                    .sugarGoal(goalKcal * 0.015)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .transFatGoal(goalKcal * 0.01 / 9)
+                    .saturatedFatGoal(goalKcal * 0.08 / 9)
+                    .cholesterolGoal(300)
+                    .proteinGoal(bodyProfile.getHeight())
+                    .build();
         }
     }
 }
-
 
 
 // 1.8 * 1.8 * 22 = 71.28
@@ -181,7 +128,6 @@ public class UserGoalCalculator {
 // 콜레스테롤은 300mg 언더
 // 당은 탄수화물의 10% 이내
 // 나트륨 WHO 기준 600mg이상 2000mg이하
-
 
 
 // 1838kcal

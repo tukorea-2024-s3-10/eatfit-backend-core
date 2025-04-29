@@ -12,7 +12,9 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Getter
     private final Long userId;
+    @Getter
     private final String oAuthId;
+    @Getter
     private final String role;
 
     public CustomOAuth2User(Long userId, String oAuthId, String role) {
