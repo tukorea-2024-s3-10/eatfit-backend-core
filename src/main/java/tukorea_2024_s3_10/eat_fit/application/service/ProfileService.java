@@ -89,7 +89,7 @@ public class ProfileService {
     public void setTargetWeight(TargetWeightRequest targetWeight) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).orElseThrow(NoSuchElementException::new);
+        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId).orElseThrow(NoSuchElementException::new);
 
         bodyProfile.setTargetWeight(targetWeight.getTargetWeight());
 
