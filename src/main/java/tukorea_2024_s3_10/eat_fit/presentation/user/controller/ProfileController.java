@@ -11,6 +11,7 @@ import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileEditRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileSetupRequest;
 import tukorea_2024_s3_10.eat_fit.application.service.UserService;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.TargetWeightRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class ProfileController {
 
     @PatchMapping("/targetWeight")
     @Operation(summary = "목표 몸무게 설정/수정", description = "목표 몸무게 설정 및 수정을 요청, 목표 몸무게 값 저장 후 그에 따른 권장 섭취량 계산까지 진행")
-    public ResponseEntity<ApiResponse<Void>> setTargetWeight(@RequestBody double targetWeight) {
+    public ResponseEntity<ApiResponse<Void>> setTargetWeight(@RequestBody TargetWeightRequest targetWeight) {
         profileService.setTargetWeight(targetWeight);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

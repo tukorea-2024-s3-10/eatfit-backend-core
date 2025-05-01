@@ -11,6 +11,7 @@ import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepositor
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
 import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileSetupRequest;
+import tukorea_2024_s3_10.eat_fit.presentation.user.dto.TargetWeightRequest;
 
 import java.util.NoSuchElementException;
 
@@ -85,12 +86,12 @@ public class ProfileService {
          */
     }
 
-    public void setTargetWeight(double targetWeight) {
+    public void setTargetWeight(TargetWeightRequest targetWeight) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
         BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).orElseThrow(NoSuchElementException::new);
 
-        bodyProfile.setTargetWeight(targetWeight);
+        bodyProfile.setTargetWeight(targetWeight.getTargetWeight());
 
         bodyProfileRepository.save(bodyProfile);
 
