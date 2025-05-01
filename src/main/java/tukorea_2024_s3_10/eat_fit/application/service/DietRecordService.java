@@ -4,12 +4,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.application.dto.DietRecordResponse;
-import tukorea_2024_s3_10.eat_fit.application.dto.WeightRecordResponse;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
+import tukorea_2024_s3_10.eat_fit.security.util.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.food.dto.DietRecordRequest;
 
 import java.util.List;

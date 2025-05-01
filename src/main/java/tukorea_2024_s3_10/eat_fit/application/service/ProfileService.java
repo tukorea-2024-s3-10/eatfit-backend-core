@@ -9,7 +9,7 @@ import tukorea_2024_s3_10.eat_fit.domain.user.repository.BodyProfileRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserDiseaseRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserIntakeGoalRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.UserRepository;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
+import tukorea_2024_s3_10.eat_fit.security.util.SecurityUtil;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.ProfileSetupRequest;
 import tukorea_2024_s3_10.eat_fit.presentation.user.dto.TargetWeightRequest;
 
@@ -86,12 +86,12 @@ public class ProfileService {
          */
     }
 
-    public void setTargetWeight(TargetWeightRequest targetWeight) {
+    public void setTargetWeight(TargetWeightRequest targetWeightRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
         BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId);
 
-        bodyProfile.setTargetWeight(targetWeight.getTargetWeight());
+        bodyProfile.setTargetWeight(targetWeightRequest.getTargetWeight());
 
         bodyProfileRepository.save(bodyProfile);
 

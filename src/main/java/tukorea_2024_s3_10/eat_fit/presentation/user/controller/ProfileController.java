@@ -2,7 +2,6 @@ package tukorea_2024_s3_10.eat_fit.presentation.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tukorea_2024_s3_10.eat_fit.application.service.ProfileService;
@@ -29,9 +28,9 @@ public class ProfileController {
     }
 
     @PatchMapping("/target-weight")
-    @Operation(summary = "목표 체중 설정 또는 수정", description = "사용자의 목표 체중을 설정하거나 수정하고, 해당 값에 따라 권장 섭취량을 자동 계산하여 저장합니다.")
-    public ResponseEntity<ApiResponse<Void>> updateTargetWeight(@RequestBody TargetWeightRequest targetWeight) {
-        profileService.setTargetWeight(targetWeight);
+    @Operation(summary = "목표 체중 설정 또는 수정", description = "사용자의 목표 체중을 설정하거나 수정하고, 해당 값에 따라 권장 섭취량을 자동 계산하여 저장")
+    public ResponseEntity<ApiResponse<Void>> updateTargetWeight(@RequestBody TargetWeightRequest targetWeightRequest) {
+        profileService.setTargetWeight(targetWeightRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 

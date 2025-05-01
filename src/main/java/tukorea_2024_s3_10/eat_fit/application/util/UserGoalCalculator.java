@@ -2,7 +2,7 @@ package tukorea_2024_s3_10.eat_fit.application.util;
 
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
-import tukorea_2024_s3_10.eat_fit.infrastructure.security.SecurityUtil;
+import tukorea_2024_s3_10.eat_fit.security.util.SecurityUtil;
 
 public class UserGoalCalculator {
 
