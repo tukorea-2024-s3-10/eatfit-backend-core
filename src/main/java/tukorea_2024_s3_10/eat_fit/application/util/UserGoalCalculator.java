@@ -20,11 +20,11 @@ public class UserGoalCalculator {
                     .sodiumGoal(2000)
                     .carbohydrateGoal((goalKcal * 0.15))
                     .sugarGoal(goalKcal * 0.015)
-                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getWeight() * 4)) / 9)
                     .transFatGoal(goalKcal * 0.01 / 9)
                     .saturatedFatGoal(goalKcal * 0.08 / 9)
                     .cholesterolGoal(300)
-                    .proteinGoal(bodyProfile.getHeight())
+                    .proteinGoal(bodyProfile.getWeight())
                     .build();
         }
         else if(bodyProfile.getTargetWeight() < bodyProfile.getWeight()) {
@@ -35,11 +35,11 @@ public class UserGoalCalculator {
                     .sodiumGoal(2000)
                     .carbohydrateGoal((goalKcal * 0.15))
                     .sugarGoal(goalKcal * 0.015)
-                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getWeight() * 4)) / 9)
                     .transFatGoal(goalKcal * 0.01 / 9)
                     .saturatedFatGoal(goalKcal * 0.08 / 9)
                     .cholesterolGoal(300)
-                    .proteinGoal(bodyProfile.getHeight())
+                    .proteinGoal(bodyProfile.getWeight())
                     .build();
         }
         else {
@@ -49,11 +49,11 @@ public class UserGoalCalculator {
                     .sodiumGoal(2000)
                     .carbohydrateGoal((goalKcal * 0.15))
                     .sugarGoal(goalKcal * 0.015)
-                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getHeight() * 4)) / 9)
+                    .fatGoal((goalKcal - (goalKcal * 0.6) - (bodyProfile.getWeight() * 4)) / 9)
                     .transFatGoal(goalKcal * 0.01 / 9)
                     .saturatedFatGoal(goalKcal * 0.08 / 9)
                     .cholesterolGoal(300)
-                    .proteinGoal(bodyProfile.getHeight())
+                    .proteinGoal(bodyProfile.getWeight())
                     .build();
         }
     }
