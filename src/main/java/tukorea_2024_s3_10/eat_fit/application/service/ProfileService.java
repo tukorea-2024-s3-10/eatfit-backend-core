@@ -84,4 +84,18 @@ public class ProfileService {
          * 3. 입력 정보를 바탕으로 사용자 맞춤 목표 설정
          */
     }
+
+    public void setTargetWeight(double targetWeight) {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+
+        BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).orElseThrow(NoSuchElementException::new);
+
+        bodyProfile.setTargetWeight(targetWeight);
+
+        bodyProfileRepository.save(bodyProfile);
+
+        UserIntakeGoal userIntakeGoal = UserGoalCalculator.recommendUserGoal(bodyProfile);
+
+        userIntakeGoalRepository.save(userIntakeGoal);
+    }
 }

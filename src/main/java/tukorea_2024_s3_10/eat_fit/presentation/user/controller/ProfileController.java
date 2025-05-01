@@ -27,6 +27,13 @@ public class ProfileController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    @PatchMapping("/targetWeight")
+    @Operation(summary = "목표 몸무게 설정/수정", description = "목표 몸무게 설정 및 수정을 요청, 목표 몸무게 값 저장 후 그에 따른 권장 섭취량 계산까지 진행")
+    public ResponseEntity<ApiResponse<Void>> setTargetWeight(@RequestBody double targetWeight) {
+        profileService.setTargetWeight(targetWeight);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
     @GetMapping
     @Operation(summary = "유저 프로필 조회", description = "유저의 프로필 정보를 조회")
     public ResponseEntity<ApiResponse<ProfileResponse>> getUserProfile() {
