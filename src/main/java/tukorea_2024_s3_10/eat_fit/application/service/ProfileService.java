@@ -86,17 +86,17 @@ public class ProfileService {
          */
     }
 
+    @Transactional
     public void setTargetWeight(TargetWeightRequest targetWeightRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId);
+        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId)
+                .orElseThrow(() -> new IllegalStateException("사용자의 신체 정보가 존재하지 않습니다."));
 
         bodyProfile.setTargetWeight(targetWeightRequest.getTargetWeight());
-
-        bodyProfileRepository.save(bodyProfile);
-
         UserIntakeGoal userIntakeGoal = UserGoalCalculator.recommendUserGoal(bodyProfile);
 
+        bodyProfileRepository.save(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
     }
 }
