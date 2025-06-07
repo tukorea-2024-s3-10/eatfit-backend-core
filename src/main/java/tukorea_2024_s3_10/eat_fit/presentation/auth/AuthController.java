@@ -34,19 +34,21 @@ public class AuthController {
     @Operation(summary = "액세스 토큰 재발급", description = "쿠키로 받은 refresh_token을 이용하여 검증 후 access_token 재발급")
     public ResponseEntity<ApiResponse<Void>> reissueAccessToken(HttpServletRequest request, HttpServletResponse response) {
 
-        // 쿠키로 받은 refresh_token의 값을 꺼내옴
-        String refreshToken = Arrays.stream(request.getCookies())
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            throw new IllegalArgumentException("No cookies found in the request");
+        }
+
+        String refreshToken = Arrays.stream(cookies)
                 .filter(cookie -> "refresh_token".equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("refresh_token is empty"));
 
-        // refresh_token이 만료되었는지 확인
         if (jwtUtil.isExpired(refreshToken)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("refresh_token is expired"));
         }
 
-        // refresh_token이 유효한 refresh_token인지 확인
         if (!refreshRepository.existsByRefresh(refreshToken)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("refresh_token not found in DB"));
         }
@@ -61,4 +63,5 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
     }
+
 }
