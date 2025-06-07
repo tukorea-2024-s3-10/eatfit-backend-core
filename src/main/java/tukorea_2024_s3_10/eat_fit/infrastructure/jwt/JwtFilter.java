@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authorizationHeader = request.getHeader("Authorization");
 
-        System.out.println("동작 ㅇㅇ확인" + authorizationHeader);
+        System.out.println("동작 ㅇ확인" + authorizationHeader);
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
