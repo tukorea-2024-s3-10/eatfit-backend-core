@@ -30,6 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         if (requestURI.startsWith("/api/core/auth/reissue")) {
             // 리프레시 토큰 API에서는 필터가 동작하지 않도록 하고 다음 필터로 진행
+            System.out.println("reissue 진입");
             filterChain.doFilter(request, response);
             return;
         }
