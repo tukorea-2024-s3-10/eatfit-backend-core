@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
-import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.TodayNutritionResponse;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
@@ -131,16 +131,14 @@ public class UserService {
 
     }
 
-    public TodayIntakeResponse calculateTodayIntake() {
+    public TodayNutritionResponse getTodayNutrition(Long currentUserId) {
 
-        // 현재 사용자와 오늘의 날짜를 바탕으로
-        Long currentUserId = SecurityUtil.getCurrentUserId();
         LocalDate today = LocalDate.now();
 
         // 오늘 먹었던 식단을 조회
         List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, today);
 
         // 오늘 먹었던 식단들의 영양 성분을 합해 응답 객체 생성
-        return new TodayIntakeResponse(todayDietRecords);
+        return new TodayNutritionResponse(todayDietRecords);
     }
 }

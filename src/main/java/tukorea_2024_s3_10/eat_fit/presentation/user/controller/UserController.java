@@ -1,26 +1,28 @@
 package tukorea_2024_s3_10.eat_fit.presentation.user.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tukorea_2024_s3_10.eat_fit.application.dto.TodayIntakeResponse;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.TodayNutritionResponse;
 import tukorea_2024_s3_10.eat_fit.application.service.UserService;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
+import tukorea_2024_s3_10.eat_fit.security.util.SecurityUtil;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/core/intake")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
-    
-    @GetMapping("/daily-status")
-    public ResponseEntity<ApiResponse<TodayIntakeResponse>> getDailyIntakeStatus() {
-        TodayIntakeResponse todayIntakeResponse = userService.calculateTodayIntake();
-        return ResponseEntity.ok(
-                ApiResponse.success(todayIntakeResponse)
-        );
+
+    @GetMapping("/me/nutrition/today")
+    @Operation(summary = "오늘의 영양소 섭취 현황 조회", description = "로그인된 사용자의 당일 영양소 섭취 총합을 조회합니다.")
+    public ResponseEntity<ApiResponse<TodayNutritionResponse>> getTodayNutrition() {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+        TodayNutritionResponse todayNutritionResponse = userService.getTodayNutrition(currentUserId);
+        return ResponseEntity.ok(ApiResponse.success(todayNutritionResponse));
     }
 }

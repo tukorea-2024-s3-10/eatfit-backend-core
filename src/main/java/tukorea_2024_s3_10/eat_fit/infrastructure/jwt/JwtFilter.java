@@ -28,9 +28,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/api/core/auth/reissue")) {
-            // 리프레시 토큰 API에서는 필터가 동작하지 않도록 하고 다음 필터로 진행
-            System.out.println("reissue 진입");
+        if (requestURI.startsWith("/api/core/auth/reissue") || requestURI.startsWith("/api/test")) {
+            System.out.println("인증 예외 경로 접근: " + requestURI);
             filterChain.doFilter(request, response);
             return;
         }
