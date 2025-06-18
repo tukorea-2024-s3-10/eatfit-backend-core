@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.FeedbackResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.user.TodayNutritionResponse;
 import tukorea_2024_s3_10.eat_fit.application.service.UserService;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
@@ -14,16 +15,16 @@ import tukorea_2024_s3_10.eat_fit.security.util.SecurityUtil;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class FeedbackController {
 
     private final UserService userService;
 
-    @GetMapping("/me/nutrition/today")
-    @Operation(summary = "오늘의 영양소 섭취 현황 조회", description = "로그인된 사용자의 당일 영양소 섭취 총합을 조회합니다.")
-    public ResponseEntity<ApiResponse<TodayNutritionResponse>> getTodayNutrition() {
+    @GetMapping("/me/feedback")
+    public ResponseEntity<ApiResponse<FeedbackResponse>> getFeedback() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
-        TodayNutritionResponse todayNutritionResponse = userService.getTodayNutrition(currentUserId);
-        return ResponseEntity.ok(ApiResponse.success(todayNutritionResponse));
+        FeedbackResponse feedbackResponse = userService.getFeedback(currentUserId);
+        return ResponseEntity.ok(ApiResponse.success(feedbackResponse));
     }
 
 }
+

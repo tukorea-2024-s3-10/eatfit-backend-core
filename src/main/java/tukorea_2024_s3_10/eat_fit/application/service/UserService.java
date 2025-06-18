@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tukorea_2024_s3_10.eat_fit.application.dto.IntakeGoalResponse;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.FeedbackResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.user.TodayNutritionResponse;
+import tukorea_2024_s3_10.eat_fit.batch.Feedback;
+import tukorea_2024_s3_10.eat_fit.batch.FeedbackRepository;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.Role;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
@@ -33,6 +36,7 @@ public class UserService {
     private final UserIntakeGoalRepository userIntakeGoalRepository;
     private final BodyProfileRepository bodyProfileRepository;
     private final DietRecordRepository dietRecordRepository;
+    private final FeedbackRepository feedbackRepository;
 
     @Transactional
     public void initProfile(ProfileSetupRequest profileSetupRequest) {
@@ -140,5 +144,12 @@ public class UserService {
 
         // 오늘 먹었던 식단들의 영양 성분을 합해 응답 객체 생성
         return new TodayNutritionResponse(todayDietRecords);
+    }
+
+    public FeedbackResponse getFeedback(Long currentUserId) {
+        Feedback feedback = feedbackRepository.findByUserId(currentUserId);
+        FeedbackResponse feedbackResponse = new FeedbackResponse();
+        feedbackResponse.setFeedback(feedback.getFeedback());
+        return feedbackResponse;
     }
 }

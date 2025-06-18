@@ -3,3 +3,7 @@ spring:
     name: eatfit
   profiles:
     active: prod
+
+  batch:
+    jdbc:
+      initialize-schema: always
