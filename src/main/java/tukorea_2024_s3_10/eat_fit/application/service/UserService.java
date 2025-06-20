@@ -62,11 +62,11 @@ public class UserService {
 
     public ProfileResponse getProfile() {
         Long currentUserId = SecurityUtil.getCurrentUserId();
-
+        User user = userRepository.findById(currentUserId).get();
         BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).get();
-
-        return new ProfileResponse(bodyProfile);
-
+        ProfileResponse profileResponse = new ProfileResponse(bodyProfile);
+        profileResponse.setName(user.getNickname());
+        return profileResponse;
     }
 
     @Transactional
