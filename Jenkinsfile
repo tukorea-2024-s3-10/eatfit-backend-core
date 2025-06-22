@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         EC2_USER = 'ec2-user'
-        EC2_HOST = '10.0.1.193'  // 실제 EC2 퍼블릭 IP나 도메인으로 변경
+        EC2_HOST = '10.0.1.156'  // 실제 EC2 퍼블릭 IP나 도메인으로 변경
         DEPLOY_PATH = '/home/ec2-user'
         SSH_KEY_CREDENTIALS_ID = 'eatfit-ssh-key-id' // Jenkins에 등록된 SSH 개인키 크리덴셜 ID
     }
