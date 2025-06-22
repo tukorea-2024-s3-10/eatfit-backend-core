@@ -43,7 +43,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: SSH_KEY_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
                     sh """
-                        scp -i ${SSH_KEY} -o StrictHostKeyChecking=no build/libs/my-spring-app.jar ${EC2_USER}@${EC2_HOST}:/home/ec2-user/eatfit-backend.jar
+                        scp -i ${SSH_KEY} -o StrictHostKeyChecking=no build/libs/eat-fit-0.0.1-SNAPSHOT.jar ${EC2_USER}@${EC2_HOST}:/home/ec2-user/eatfit-backend.jar
                     """
                 }
             }
