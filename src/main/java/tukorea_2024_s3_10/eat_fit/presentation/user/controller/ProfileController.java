@@ -49,7 +49,7 @@ public class ProfileController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
-    @GetMapping
+    @GetMapping("/target-weight")
     public ResponseEntity<ApiResponse<TargetWeightResponse>> getTargetWeight() {
         TargetWeightResponse targetWeightResponse = profileService.getTargetWeight();
         return ResponseEntity.ok(ApiResponse.success(targetWeightResponse));
