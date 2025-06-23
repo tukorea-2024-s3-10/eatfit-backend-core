@@ -56,7 +56,7 @@ public class DinnerMenuService {
 
             ObjectNode systemMessage = objectMapper.createObjectNode();
             systemMessage.put("role", "system");
-            systemMessage.put("content", "다음은 사용자가 오늘 섭취하지 못한 부족한 영양소야. 이를 바탕으로 최대 3문장 정도로 추천하는 메뉴와 그 이유를 부족한 영양소를 설명하며 알려줘. 문장의 시작은 추천 음식이름으로 시작하도록 ");
+            systemMessage.put("content", "다음은 사용자가 오늘 섭취하지 못한 부족한 영양소야. 이를 바탕으로 최대 3문장 정도로 추천하는 메뉴와 그 이유를 부족한 영양소를 설명하며 알려줘.");
             messages.add(systemMessage);
 
             ObjectNode userMessage = objectMapper.createObjectNode();
