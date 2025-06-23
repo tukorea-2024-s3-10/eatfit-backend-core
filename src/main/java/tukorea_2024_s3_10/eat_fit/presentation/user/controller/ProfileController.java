@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.TargetWeightResponse;
 import tukorea_2024_s3_10.eat_fit.application.service.ProfileService;
 import tukorea_2024_s3_10.eat_fit.global.dto.ApiResponse;
 import tukorea_2024_s3_10.eat_fit.application.dto.ProfileResponse;
@@ -46,5 +47,11 @@ public class ProfileController {
     public ResponseEntity<ApiResponse<Void>> editProfile(@RequestBody ProfileEditRequest profileEditRequest) {
         userService.editProfile(profileEditRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<TargetWeightResponse>> getTargetWeight() {
+        TargetWeightResponse targetWeightResponse = profileService.getTargetWeight();
+        return ResponseEntity.ok(ApiResponse.success(targetWeightResponse));
     }
 }

@@ -3,6 +3,7 @@ package tukorea_2024_s3_10.eat_fit.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tukorea_2024_s3_10.eat_fit.application.dto.user.TargetWeightResponse;
 import tukorea_2024_s3_10.eat_fit.application.util.UserGoalCalculator;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.*;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.BodyProfileRepository;
@@ -34,7 +35,7 @@ public class ProfileService {
         System.out.println(profileSetupRequest.getWeight());
         System.out.println(profileSetupRequest.getGoalType());
         System.out.println(profileSetupRequest.getTargetWeight());
-        for (String disease :  profileSetupRequest.getDiseases()) {
+        for (String disease : profileSetupRequest.getDiseases()) {
             System.out.println(disease);
         }
 
@@ -46,21 +47,10 @@ public class ProfileService {
         user.updateNickname(profileSetupRequest.getNickname());
         user.updateRole(Role.ROLE_USER);
 
-        BodyProfile bodyProfile = BodyProfile.builder()
-                .userId(user.getId())
-                .targetWeight(profileSetupRequest.getWeight())
-                .gender(profileSetupRequest.getGender())
-                .age(profileSetupRequest.getAge())
-                .height(profileSetupRequest.getHeight())
-                .weight(profileSetupRequest.getWeight())
-                .goalType(profileSetupRequest.getGoalType())
-                .build();
+        BodyProfile bodyProfile = BodyProfile.builder().userId(user.getId()).targetWeight(profileSetupRequest.getWeight()).gender(profileSetupRequest.getGender()).age(profileSetupRequest.getAge()).height(profileSetupRequest.getHeight()).weight(profileSetupRequest.getWeight()).goalType(profileSetupRequest.getGoalType()).build();
 
-        for(String disease : profileSetupRequest.getDiseases()){
-            UserDisease userDisease = UserDisease.builder()
-                    .userId(user.getId())
-                    .disease(disease)
-                    .build();
+        for (String disease : profileSetupRequest.getDiseases()) {
+            UserDisease userDisease = UserDisease.builder().userId(user.getId()).disease(disease).build();
             userDiseaseRepository.save(userDisease);
         }
 
@@ -90,8 +80,7 @@ public class ProfileService {
     public void setTargetWeight(TargetWeightRequest targetWeightRequest) {
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId)
-                .orElseThrow(() -> new IllegalStateException("사용자의 신체 정보가 존재하지 않습니다."));
+        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId).orElseThrow(() -> new IllegalStateException("사용자의 신체 정보가 존재하지 않습니다."));
 
         bodyProfile.setTargetWeight(targetWeightRequest.getTargetWeight());
         UserIntakeGoal userIntakeGoal = UserGoalCalculator.recommendUserGoal(bodyProfile);
@@ -99,4 +88,15 @@ public class ProfileService {
         bodyProfileRepository.save(bodyProfile);
         userIntakeGoalRepository.save(userIntakeGoal);
     }
+
+    public TargetWeightResponse getTargetWeight() {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
+
+        BodyProfile bodyProfile = bodyProfileRepository.findByUserId(currentUserId).orElseThrow(() -> new IllegalStateException("사용자의 신체 정보가 존재하지 않습니다."));
+        TargetWeightResponse targetWeightResponse = new TargetWeightResponse();
+        targetWeightResponse.setTargetWeight(bodyProfile.getTargetWeight());
+        return targetWeightResponse;
+
+    }
+
 }
