@@ -1,12 +1,6 @@
 pipeline {
-    agent any
 
-    environment {
-        EC2_USER = 'ec2-user'
-        EC2_HOST = '10.0.1.156'  // 실제 EC2 퍼블릭 IP나 도메인으로 변경
-        DEPLOY_PATH = '/home/ec2-user'
-        SSH_KEY_CREDENTIALS_ID = 'eatfit-ssh-key-id' // Jenkins에 등록된 SSH 개인키 크리덴셜 ID
-    }
+    agent any
 
     stages {
         stage('Get Project From GitHub') {
@@ -39,22 +33,23 @@ pipeline {
             }
         }
 
-        stage('Copy JAR to Backend Server') {
+        stage('Docker 빌드 후 ECR 업로드') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: SSH_KEY_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                    sh """
-                        scp -i ${SSH_KEY} -o StrictHostKeyChecking=no build/libs/eat-fit-0.0.1-SNAPSHOT.jar ${EC2_USER}@${EC2_HOST}:/home/ec2-user/eatfit-backend.jar
-                    """
+                withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
+                    sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com'
+                    sh 'docker build -t eatfit/core .'
+                    sh 'docker tag eatfit/core:latest 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/core:latest'
+                    sh 'docker push 248189949085.dkr.ecr.ap-northeast-2.amazonaws.com/eatfit/core:latest'
                 }
             }
         }
 
-        stage('Run Deploy Script on Backend Server') {
+        stage('Update ECS Service') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: SSH_KEY_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                    sh """
-                        ssh -i ${SSH_KEY} -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} 'bash /home/ec2-user/deploy.sh'
-                    """
+                withAWS(credentials: 'aws-credentials-id', region: 'ap-northeast-2') {
+                    script {
+                        sh 'aws ecs update-service --cluster eatfit-cluster --service eatfit-core-service --force-new-deployment'
+                    }
                 }
             }
         }
