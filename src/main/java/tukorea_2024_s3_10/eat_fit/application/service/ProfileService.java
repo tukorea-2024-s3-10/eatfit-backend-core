@@ -38,7 +38,6 @@ public class ProfileService {
             System.out.println(disease);
         }
 
-
         // 현재 로그인 중인 사용자의 식별자를 불러옴
         Long currentUserId = SecurityUtil.getCurrentUserId();
 
@@ -49,6 +48,7 @@ public class ProfileService {
 
         BodyProfile bodyProfile = BodyProfile.builder()
                 .userId(user.getId())
+                .targetWeight(profileSetupRequest.getWeight())
                 .gender(profileSetupRequest.getGender())
                 .age(profileSetupRequest.getAge())
                 .height(profileSetupRequest.getHeight())
