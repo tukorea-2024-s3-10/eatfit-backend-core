@@ -56,7 +56,13 @@ public class DinnerMenuService {
 
             ObjectNode systemMessage = objectMapper.createObjectNode();
             systemMessage.put("role", "system");
-            systemMessage.put("content", "다음은 사용자가 오늘 섭취하지 못한 부족한 영양소야. 이를 바탕으로 최대 3문장 정도로 추천하는 메뉴 1개와 그 이유를 부족한 영양소를 설명하며 알려줘. 첫 시작 문장은 딱 음식 이름만 단어로 말해줘.");
+            systemMessage.put("content",
+                    "다음은 사용자가 오늘 섭취하지 못한 부족한 영양소 정보야. " +
+                            "이 정보를 참고해서 저녁 메뉴 1개를 추천해줘. 추천은 총 3문장으로 해줘. " +
+                            "첫 문장은 음식 이름만 간단히 제시하고, 그 뒤 두 문장은 그 음식이 어떤 부족한 영양소를 어떻게 보충해주는지를 설명해줘. " +
+                            "모든 문장은 줄바꿈 없이 한 문장씩 공백으로 이어지게 만들어줘. 예시: " +
+                            "'치킨 스테이크와 채소 샐러드. 이 메뉴는 단백질과 지방을 보충해줍니다. 특히 포화지방과 칼로리를 균형 있게 섭취할 수 있습니다.'"
+            );
             messages.add(systemMessage);
 
             ObjectNode userMessage = objectMapper.createObjectNode();
