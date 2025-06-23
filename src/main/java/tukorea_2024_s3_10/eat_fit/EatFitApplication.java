@@ -12,12 +12,6 @@ import java.util.TimeZone;
 @EnableScheduling
 @EnableBatchProcessing
 public class EatFitApplication {
-
-	@PostConstruct
-	public void setTimeZone() {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(EatFitApplication.class, args);
 	}
