@@ -8,7 +8,7 @@ import tukorea_2024_s3_10.eat_fit.domain.user.entity.BodyProfile;
 public class ProfileResponse {
     private String name;
     private String gender;
-    private int birthYear;
+    private int age;
     private double height;
     private double weight;
     private String goalCategory;
@@ -17,7 +17,7 @@ public class ProfileResponse {
 
     public ProfileResponse(BodyProfile bodyProfile) {
         this.gender = bodyProfile.getGender();
-        this.birthYear = bodyProfile.getAge();
+        this.age = bodyProfile.getAge();
         this.height = bodyProfile.getHeight();
         this.weight = bodyProfile.getWeight();
         this.goalCategory = bodyProfile.getGoalType();
