@@ -12,7 +12,10 @@ import java.util.TimeZone;
 @EnableScheduling
 @EnableBatchProcessing
 public class EatFitApplication {
+
+
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 		SpringApplication.run(EatFitApplication.class, args);
 	}
 
