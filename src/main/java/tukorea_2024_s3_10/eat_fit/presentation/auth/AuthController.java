@@ -20,6 +20,8 @@ import tukorea_2024_s3_10.eat_fit.infrastructure.jwt.JwtUtil;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/core/auth")
@@ -34,16 +36,17 @@ public class AuthController {
     @Operation(summary = "액세스 토큰 재발급", description = "쿠키로 받은 refresh_token을 이용하여 검증 후 access_token 재발급")
     public ResponseEntity<ApiResponse<Void>> reissueAccessToken(HttpServletRequest request, HttpServletResponse response) {
 
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.fail("요청에 쿠키가 없습니다."));
-        }
-
-        String refreshToken = Arrays.stream(cookies)
+        String refreshToken = Optional.ofNullable(request.getCookies())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
                 .filter(cookie -> "refresh_token".equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("refresh_token is empty"));
+                .orElse(null);
+
+        if (refreshToken == null || refreshToken.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.fail("refresh_token이 존재하지 않습니다."));
+        }
 
         if (jwtUtil.isExpired(refreshToken)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("refresh_token is expired"));
