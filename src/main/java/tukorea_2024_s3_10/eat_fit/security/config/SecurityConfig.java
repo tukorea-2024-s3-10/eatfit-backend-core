@@ -1,4 +1,4 @@
-package tukorea_2024_s3_10.eat_fit.security;
+package tukorea_2024_s3_10.eat_fit.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

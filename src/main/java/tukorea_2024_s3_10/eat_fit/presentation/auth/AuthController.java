@@ -36,7 +36,7 @@ public class AuthController {
 
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
-            throw new IllegalArgumentException("No cookies found in the request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.fail("요청에 쿠키가 없습니다."));
         }
 
         String refreshToken = Arrays.stream(cookies)
