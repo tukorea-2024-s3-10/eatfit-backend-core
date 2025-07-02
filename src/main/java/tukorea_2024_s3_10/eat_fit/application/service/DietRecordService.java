@@ -36,7 +36,7 @@ public class DietRecordService {
                 .fat(dietRecordRequest.getFat())
                 .saturatedFat(dietRecordRequest.getSaturatedFat())
                 .transFat(dietRecordRequest.getTransFat())
-                .sodiumGoal(dietRecordRequest.getSodiumGoal())
+                .sodium(dietRecordRequest.getSodium())
                 .cholesterol(dietRecordRequest.getCholesterol())
                 .build();
 

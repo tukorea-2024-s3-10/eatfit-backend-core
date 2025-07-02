@@ -21,18 +21,4 @@ public class TodayNutritionResponse {
     private int saturatedFatG;      // 포화지방 (g)
     private int cholesterolMg;      // 콜레스테롤 (mg)
     private int proteinG;           // 단백질 (g)
-
-    public TodayNutritionResponse(List<DietRecord> todayDietRecords) {
-        for (DietRecord dietRecord : todayDietRecords) {
-            calorie += dietRecord.getCalorie();
-            sodiumMg += dietRecord.getSodium();
-            carbohydratesG += dietRecord.getCarbohydrate();
-            sugarsG += dietRecord.getSugar();
-            fatG += dietRecord.getFat();
-            transFatG += dietRecord.getTransFat();
-            saturatedFatG += dietRecord.getSaturatedFat();
-            cholesterolMg += dietRecord.getCholesterol();
-            proteinG += dietRecord.getProtein();
-        }
-    }
 }

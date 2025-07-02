@@ -17,6 +17,6 @@ public class DietRecordRequest {
     private double fat; // g
     private double saturatedFat; // g
     private double transFat; // g
-    private int sodiumGoal; // mg
+    private int sodium; // mg
     private int cholesterol; // mg
 }
