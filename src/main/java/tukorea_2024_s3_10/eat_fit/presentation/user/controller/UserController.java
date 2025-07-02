@@ -21,8 +21,7 @@ public class UserController {
     @GetMapping("/me/nutrition/today")
     @Operation(summary = "오늘의 영양소 섭취 현황 조회", description = "로그인된 사용자의 당일 영양소 섭취 총합을 조회합니다.")
     public ResponseEntity<ApiResponse<TodayNutritionResponse>> getTodayNutrition() {
-        Long currentUserId = SecurityUtil.getCurrentUserId();
-        TodayNutritionResponse todayNutritionResponse = userService.getTodayNutrition(currentUserId);
+        TodayNutritionResponse todayNutritionResponse = userService.getTodayNutrition();
         return ResponseEntity.ok(ApiResponse.success(todayNutritionResponse));
     }
 

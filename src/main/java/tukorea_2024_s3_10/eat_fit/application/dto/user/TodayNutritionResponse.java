@@ -1,5 +1,6 @@
 package tukorea_2024_s3_10.eat_fit.application.dto.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class TodayNutritionResponse {
 
     private int calorie;            // 칼로리
@@ -23,7 +25,7 @@ public class TodayNutritionResponse {
     public TodayNutritionResponse(List<DietRecord> todayDietRecords) {
         for (DietRecord dietRecord : todayDietRecords) {
             calorie += dietRecord.getCalorie();
-            sodiumMg += dietRecord.getSodiumGoal();
+            sodiumMg += dietRecord.getSodium();
             carbohydratesG += dietRecord.getCarbohydrate();
             sugarsG += dietRecord.getSugar();
             fatG += dietRecord.getFat();

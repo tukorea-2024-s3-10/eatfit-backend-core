@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tukorea_2024_s3_10.eat_fit.application.dto.DinnerMenuResponse;
-import tukorea_2024_s3_10.eat_fit.batch.UserDietSummary;
 import tukorea_2024_s3_10.eat_fit.domain.user.DietRecord;
 import tukorea_2024_s3_10.eat_fit.domain.user.entity.UserIntakeGoal;
 import tukorea_2024_s3_10.eat_fit.domain.user.repository.DietRecordRepository;
@@ -120,7 +119,7 @@ public class DinnerMenuService {
 
         for (DietRecord dietRecord : todayDietRecords) {
             calorie -= dietRecord.getCalorie();
-            sodiumMg -= dietRecord.getSodiumGoal();
+            sodiumMg -= dietRecord.getSodium();
             carbohydratesG -= dietRecord.getCarbohydrate();
             sugarsG -= dietRecord.getSugar();
             fatG -= dietRecord.getFat();

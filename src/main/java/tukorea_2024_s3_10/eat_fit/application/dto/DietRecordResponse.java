@@ -36,7 +36,7 @@ public class DietRecordResponse {
         this.fat = dietRecord.getFat();
         this.saturatedFat = dietRecord.getSaturatedFat();
         this.transFat = dietRecord.getTransFat();
-        this.sodiumGoal = dietRecord.getSodiumGoal();
+        this.sodiumGoal = dietRecord.getSodium();
         this.cholesterol = dietRecord.getCholesterol();
         this.id = dietRecord.getId();
     }

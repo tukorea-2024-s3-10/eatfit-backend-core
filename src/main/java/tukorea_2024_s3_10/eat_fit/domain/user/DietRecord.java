@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tukorea_2024_s3_10.eat_fit.domain.user.entity.User;
 
 import java.time.LocalDate;
 
@@ -32,6 +31,6 @@ public class DietRecord {
     private double fat; // g
     private double saturatedFat; // g
     private double transFat; // g
-    private int sodiumGoal; // mg
+    private int sodium; // mg
     private int cholesterol; // mg
 }

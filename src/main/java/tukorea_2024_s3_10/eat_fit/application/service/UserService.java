@@ -134,15 +134,47 @@ public class UserService {
 
     }
 
-    public TodayNutritionResponse getTodayNutrition(Long currentUserId) {
+    public TodayNutritionResponse getTodayNutrition() {
+        Long currentUserId = SecurityUtil.getCurrentUserId();
 
-        LocalDate today = LocalDate.now();
+        // 현재 사용자가 오늘 날짜에 섭취한 식단 정보를 리스트로 가져온다.
+        List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, LocalDate.now());
 
-        // 오늘 먹었던 식단을 조회
-        List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, today);
+        int totalCalorie = 0;
+        int totalSodiumMg = 0;
+        int totalCarbohydratesG = 0;
+        int totalSugarsG = 0;
+        int totalFatG = 0;
+        int totalTransFatG = 0;
+        int totalSaturatedFatG = 0;
+        int totalCholesterolMg = 0;
+        int totalProteinG = 0;
 
-        // 오늘 먹었던 식단들의 영양 성분을 합해 응답 객체 생성
-        return new TodayNutritionResponse(todayDietRecords);
+        // 식단 정보들의 영양소 합 저장
+        for (DietRecord dietRecord : todayDietRecords) {
+            totalCalorie += dietRecord.getCalorie();
+            totalSodiumMg += dietRecord.getSodium();
+            totalCarbohydratesG += (int)dietRecord.getCarbohydrate();
+            totalSugarsG += (int)dietRecord.getSugar();
+            totalFatG += (int)dietRecord.getFat();
+            totalTransFatG += (int)dietRecord.getTransFat();
+            totalSaturatedFatG += (int)dietRecord.getSaturatedFat();
+            totalCholesterolMg += dietRecord.getCholesterol();
+            totalProteinG += (int)dietRecord.getProtein();
+        }
+
+        // 오늘 먹었던 식단들의 영양소 합을 응답한다.
+        return TodayNutritionResponse.builder()
+                .calorie(totalCalorie)
+                .sodiumMg(totalSodiumMg)
+                .carbohydratesG(totalCarbohydratesG)
+                .sugarsG(totalSugarsG)
+                .fatG(totalFatG)
+                .transFatG(totalTransFatG)
+                .saturatedFatG(totalSaturatedFatG)
+                .cholesterolMg(totalCholesterolMg)
+                .proteinG(totalProteinG)
+                .build();
     }
 
     public FeedbackResponse getFeedback(Long currentUserId) {
