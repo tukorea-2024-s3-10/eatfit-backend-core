@@ -49,27 +49,16 @@ public class DinnerMenuService {
 
             // 요청 바디 구성
             ObjectNode requestBody = objectMapper.createObjectNode();
-            // 테스트용으로 gpt-3.5-turbo 추천 (권한 없으면 gpt-4 호출 실패)
             requestBody.put("model", "gpt-3.5-turbo");
             ArrayNode messages = requestBody.putArray("messages");
 
-            ObjectNode systemMessage = objectMapper.createObjectNode();
-            systemMessage.put("role", "system");
-            systemMessage.put("content",
-                    "다음은 사용자가 오늘 섭취하지 못한 부족한 영양소 정보야. " +
-                            "이 정보를 참고해서 저녁 메뉴 1개를 추천해줘. 추천은 총 3문장으로 해줘. " +
-                            "첫 문장은 음식 이름만 간단히 제시하고, 그 뒤 두 문장은 그 음식이 어떤 부족한 영양소를 어떻게 보충해주는지를 설명해줘. " +
-                            "모든 문장은 줄바꿈 없이 한 문장씩 공백으로 이어지게 만들어줘. 예시: " +
-                            "'치킨 스테이크와 채소 샐러드. 이 메뉴는 단백질과 지방을 보충해줍니다. 특히 포화지방과 칼로리를 균형 있게 섭취할 수 있습니다.'"
-            );
-            messages.add(systemMessage);
-
+            // systemMessage 제거 → 필요 없음
             ObjectNode userMessage = objectMapper.createObjectNode();
             userMessage.put("role", "user");
             userMessage.put("content", prompt);
             messages.add(userMessage);
 
-            // HTTP 호출 준비 (HTTP 1.1 사용)
+            // HTTP 호출 준비
             HttpClient client = HttpClient.newBuilder()
                     .version(HttpClient.Version.HTTP_1_1)
                     .build();
@@ -97,61 +86,49 @@ public class DinnerMenuService {
         }
     }
 
+
     private String buildPrompt() {
-
-
-
         Long currentUserId = SecurityUtil.getCurrentUserId();
         LocalDate today = LocalDate.now();
-        // 오늘 먹었던 식단을 조회
-        List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, today);
-        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findByUserId(currentUserId).get();
 
-        int calorie = userIntakeGoal.getCalorieGoal();       // 칼로리
-        int sodiumMg = userIntakeGoal.getSodiumGoal();        // 나트륨
-        double carbohydratesG = userIntakeGoal.getCarbohydrateGoal();  // 탄수화물
-        double sugarsG = userIntakeGoal.getSugarGoal();         // 당류
-        double fatG = userIntakeGoal.getFatGoal();           // 지방
-        double transFatG = userIntakeGoal.getTransFatGoal();      // 트랜스지방
-        double saturatedFatG = userIntakeGoal.getSaturatedFatGoal();  // 포화지방
-        int cholesterolMg = userIntakeGoal.getCholesterolGoal();   // 콜레스테롤
-        double proteinG = userIntakeGoal.getProteinGoal();
+        List<DietRecord> todayDietRecords = dietRecordRepository.findByUserIdAndDate(currentUserId, today);
+        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findByUserId(currentUserId)
+                .orElseThrow(() -> new RuntimeException("사용자의 영양 목표가 설정되지 않았습니다."));
+
+        double carbRemain = userIntakeGoal.getCarbohydrateGoal();
+        double proteinRemain = userIntakeGoal.getProteinGoal();
+        double fatRemain = userIntakeGoal.getFatGoal();
 
         for (DietRecord dietRecord : todayDietRecords) {
-            calorie -= dietRecord.getCalorie();
-            sodiumMg -= dietRecord.getSodium();
-            carbohydratesG -= dietRecord.getCarbohydrate();
-            sugarsG -= dietRecord.getSugar();
-            fatG -= dietRecord.getFat();
-            transFatG -= dietRecord.getTransFat();
-            saturatedFatG -= dietRecord.getSaturatedFat();
-            cholesterolMg -= dietRecord.getCholesterol();
-            proteinG -= dietRecord.getProtein();
+            carbRemain -= dietRecord.getCarbohydrate();
+            proteinRemain -= dietRecord.getProtein();
+            fatRemain -= dietRecord.getFat();
         }
 
+        // 음수 방지
+        carbRemain = Math.max(0, carbRemain);
+        proteinRemain = Math.max(0, proteinRemain);
+        fatRemain = Math.max(0, fatRemain);
+
+        // 가장 부족한 영양소 찾기
+        String deficientNutrient;
+        if (carbRemain >= proteinRemain && carbRemain >= fatRemain) {
+            deficientNutrient = "탄수화물";
+        } else if (proteinRemain >= carbRemain && proteinRemain >= fatRemain) {
+            deficientNutrient = "단백질";
+        } else {
+            deficientNutrient = "지방";
+        }
+
+        // GPT에 전달할 프롬프트
         return String.format(
-                "총 섭취 후 남은 영양 목표:\n"
-                        + "- 칼로리: %d kcal\n"
-                        + "- 나트륨: %d mg\n"
-                        + "- 탄수화물: %.2f g\n"
-                        + "- 당류: %.2f g\n"
-                        + "- 지방: %.2f g\n"
-                        + "- 트랜스지방: %.2f g\n"
-                        + "- 포화지방: %.2f g\n"
-                        + "- 콜레스테롤: %d mg\n"
-                        + "- 단백질: %.2f g\n\n"
-                        + "위 데이터를 참고하여 부족한 영양소를 보완할 수 있는 저녁 메뉴를 3문장 이내로 추천해 주세요.",
-                calorie,
-                sodiumMg,
-                carbohydratesG,
-                sugarsG,
-                fatG,
-                transFatG,
-                saturatedFatG,
-                cholesterolMg,
-                proteinG
+                "오늘 가장 부족한 영양소는 %s입니다. " +
+                        "%s을 보충하기 좋은 음식 3가지를 골라주세요. " +
+                        "출력은 반드시 다음 형식으로만 하세요: '%s. 음식1, 음식2, 음식3' " +
+                        "예시 문구나 설명은 쓰지 마세요.",
+                deficientNutrient, deficientNutrient, deficientNutrient
         );
-
-
     }
+
+
 }
