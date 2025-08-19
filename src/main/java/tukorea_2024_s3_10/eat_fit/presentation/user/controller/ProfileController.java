@@ -22,6 +22,13 @@ public class ProfileController {
     private final UserService userService;
     private final ProfileService profileService;
 
+    @GetMapping
+    @Operation(summary = "마이페이지 사용자 정보 조회", description = "마이페이지 화면에 표시되는 사용자의 프로필 및 관련 정보를 조회합니다.")
+    public ResponseEntity<ApiResponse<ProfileResponse>> getUserProfile() {
+        ProfileResponse profileResponse = userService.getProfile();
+        return ResponseEntity.ok(ApiResponse.success(profileResponse));
+    }
+
     @PostMapping
     @Operation(summary = "가입 후 최초 프로필 설정", description = "서비스 가입 후 최초에 서비스 이용을 위한 초기 프로필 설정(신체 정보 및 목표 설정)")
     public ResponseEntity<ApiResponse<Void>> setupProfile(@RequestBody ProfileSetupRequest profileSetupRequest) {
@@ -34,12 +41,6 @@ public class ProfileController {
     public ResponseEntity<ApiResponse<Void>> updateTargetWeight(@Valid @RequestBody TargetWeightRequest targetWeightRequest) {
         profileService.setTargetWeight(targetWeightRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @GetMapping
-    @Operation(summary = "유저 프로필 조회", description = "유저의 프로필 정보를 조회")
-    public ResponseEntity<ApiResponse<ProfileResponse>> getUserProfile() {
-        return ResponseEntity.ok(ApiResponse.success(userService.getProfile()));
     }
 
     @PatchMapping
