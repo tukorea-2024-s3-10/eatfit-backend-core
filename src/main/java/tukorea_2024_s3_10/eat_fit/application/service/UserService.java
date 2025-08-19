@@ -64,7 +64,8 @@ public class UserService {
         BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).get();
         ProfileResponse profileResponse = new ProfileResponse(bodyProfile);
         profileResponse.setName(user.getNickname());
-        profileResponse.setDisease(userDiseaseRepository.findByUserId(currentUserId).getDisease());
+        userDiseaseRepository.findByUserId(currentUserId)
+                .ifPresent(userDisease -> profileResponse.setDisease(userDisease.getDisease()));
         return profileResponse;
     }
 
