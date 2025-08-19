@@ -122,11 +122,11 @@ public class DinnerMenuService {
 
         // GPT에 전달할 프롬프트
         return String.format(
-                "오늘 가장 부족한 영양소는 %s입니다. 이를 보충하기 위한 음식 3가지를 추천해주세요." +
-                        "출력은 반드시 다음 형식을 따라야 합니다: '%s. 음식1, 음식2, 음식3' " +
-                        "예: '탄수화물. 밥, 떡볶이, 김밥' " +
-                        "추가 설명이나 줄바꿈은 하지 마세요.",
-                deficientNutrient, deficientNutrient
+                "오늘 가장 부족한 영양소는 %s입니다. " +
+                        "%s을 보충하기 좋은 한국 음식 3가지를 골라주세요. " +
+                        "출력은 반드시 다음 형식으로만 하세요: '%s. 음식1, 음식2, 음식3' " +
+                        "예시 문구나 설명은 쓰지 마세요.",
+                deficientNutrient, deficientNutrient, deficientNutrient
         );
     }
 
