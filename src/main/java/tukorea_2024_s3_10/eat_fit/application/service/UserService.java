@@ -64,6 +64,8 @@ public class UserService {
         BodyProfile bodyProfile = bodyProfileRepository.findById(currentUserId).get();
         ProfileResponse profileResponse = new ProfileResponse(bodyProfile);
         profileResponse.setName(user.getNickname());
+        UserIntakeGoal userIntakeGoal = userIntakeGoalRepository.findByUserId(currentUserId).get();
+        profileResponse.setTargetCalorie(userIntakeGoal.getCalorieGoal());
         userDiseaseRepository.findByUserId(currentUserId)
                 .ifPresent(userDisease -> profileResponse.setDisease(userDisease.getDisease()));
         return profileResponse;
