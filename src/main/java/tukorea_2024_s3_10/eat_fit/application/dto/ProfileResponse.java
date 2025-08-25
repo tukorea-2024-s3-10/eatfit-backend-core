@@ -12,6 +12,7 @@ public class ProfileResponse {
     private double height;
     private double weight;
     private String goalCategory;
+    private double targetCalorie;
     private double targetWeight;
     private String disease;
 
