@@ -183,7 +183,12 @@ public class UserService {
     public FeedbackResponse getFeedback(Long currentUserId) {
         Feedback feedback = feedbackRepository.findByUserId(currentUserId);
         FeedbackResponse feedbackResponse = new FeedbackResponse();
-        feedbackResponse.setFeedback(feedback.getFeedback());
+        if(feedback.getFeedback() == null) {
+            feedbackResponse.setFeedback("전일 식단 정보가 존재하지 않아 피드백이 생성되지 않았습니다.");
+        }
+        else{
+            feedbackResponse.setFeedback(feedback.getFeedback());
+        }
         return feedbackResponse;
     }
 }
