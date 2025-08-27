@@ -8,7 +8,7 @@ import tukorea_2024_s3_10.eat_fit.domain.food.entity.Food;
 @Setter
 public class FoodResponse {
     private String name;
-    private int mass; // 음식 질량(g)
+    private int mass; // 음식 질량 (g)
     private int calorie; // Kcal
     private double carbohydrate; // g
     private double sugar; // g
